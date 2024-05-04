@@ -39,3 +39,6 @@ vendor/
 
 # Output files
 output/
+
+# Dataset files
+dataset/
