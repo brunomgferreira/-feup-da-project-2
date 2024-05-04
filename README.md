@@ -1,4 +1,4 @@
-# DESIGN OF ALGORITHMS @FEUP - 2nd Project 
+# Design of Algorithms @FEUP - 2nd Project 
 
 Project developed in C++ for the **Design of Algorithms (DA)** course unit **@FEUP**
 
