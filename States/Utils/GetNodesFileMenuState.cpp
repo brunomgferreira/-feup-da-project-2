@@ -32,7 +32,11 @@ void GetNodesFileMenuState::handleInput(App* app) {
                     PressEnterToContinue(1);
                     app->setState(new GetEdgesFilePathState(this, [&](App *app) {
                         cout << "This might take some time... " << endl << endl;
+                        clock_t start, end;
+                        start = clock();
                         app->setData();
+                        end = clock();
+                        cout << "Elapsed time: " << setprecision(2) << double(end - start) / CLOCKS_PER_SEC << "s" << endl;
                         cout << "Network loaded successfully! " << endl;
                         PressEnterToContinue(1);
                         app->setState(new MainMenuState());
@@ -44,7 +48,11 @@ void GetNodesFileMenuState::handleInput(App* app) {
                 app->setState(new GetEdgesFilePathState(this, [&](App *app) {
                     app->setNodesFilePath(filesystem::path());
                     cout << "This might take some time... " << endl << endl;
+                    clock_t start, end;
+                    start = clock();
                     app->setData();
+                    end = clock();
+                    cout << "Elapsed time: " << setprecision(2) << double(end - start) / CLOCKS_PER_SEC << "s" << endl;
                     cout << "Network loaded successfully! " << endl;
                     PressEnterToContinue(1);
                     app->setState(new MainMenuState());
