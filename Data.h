@@ -10,6 +10,7 @@ using namespace std;
 #include <sstream>
 #include <iostream>
 #include <filesystem>
+#include <limits>
 #include <cmath>
 #include "Graph.h"
 
@@ -44,6 +45,8 @@ public:
     void readNodesFile(ifstream &file);
 
     void TSPBacktracking();
+
+    void TSPTriangular();
 };
 
 

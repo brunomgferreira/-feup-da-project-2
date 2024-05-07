@@ -115,12 +115,22 @@ void Data::TSPBacktracking() {
         pair.second->setVisited(false);
     }
 
-    double res = MAXFLOAT;
+    double res = numeric_limits<double>::max();
     Vertex *v = g.findVertex(0);
     v->setVisited(true);
 
     g.TSPBacktracking(v, 0, 1, 0, res);
 
+    cout << endl;
     cout << "TSP Backtracking result: " << setprecision(1) << res << endl;
+}
+
+void Data::TSPTriangular() {
+
+    double res = 0;
+    g.TSPTriangular(res);
+
+    cout << endl;
+    cout << "TSP Triangular approximation result: " << setprecision(1) << res << endl;
 }
 

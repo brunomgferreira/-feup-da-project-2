@@ -73,6 +73,14 @@ void Vertex::updateFlow() {
     this->flow = incomingFlow;
 }
 
+double Vertex::getDist() const {
+    return this->dist;
+}
+
+void Vertex::setDist(double value) {
+    this->dist = value;
+}
+
 void Vertex::setVisited(bool isVisited) {
     this->visited = isVisited;
 }
@@ -81,8 +89,8 @@ void Vertex::setPath(Edge *newPath) {
     this->path = newPath;
 }
 
-Edge * Vertex::addEdge(Vertex *dest, double c, double f) {
-    auto newEdge = new Edge(this, dest, c);
+Edge * Vertex::addEdge(Vertex *dest, double w, double f) {
+    auto newEdge = new Edge(this, dest, w);
     newEdge->setFlow(f);
     adj.insert({dest->getId(), newEdge});
     dest->incoming.push_back(newEdge);
@@ -99,14 +107,14 @@ Edge * Vertex::findEdge(int destId) {
 
 /********************** Edge  ****************************/
 
-Edge::Edge(Vertex *orig, Vertex *dest, double capacity) : orig(orig), dest(dest), capacity(capacity) {}
+Edge::Edge(Vertex *orig, Vertex *dest, double weight) : orig(orig), dest(dest), weight(weight) {}
 
 Vertex * Edge::getDest() const {
     return this->dest;
 }
 
-double Edge::getCapacity() const {
-    return this->capacity;
+double Edge::getWeight() const {
+    return this->weight;
 }
 
 Vertex * Edge::getOrig() const {
@@ -158,16 +166,16 @@ bool Graph::addVertex(int id, double longitude, double latitude) {
     return false;
 }
 
-bool Graph::addEdge(int source, int dest, double c, double f) const {
+bool Graph::addEdge(int source, int dest, double w, double f) const {
     Vertex *originVertex = findVertex(source);
     Vertex *destVertex = findVertex(dest);
 
     if (originVertex && destVertex) {
-        auto e1 = originVertex->addEdge(destVertex, c, f);
+        auto e1 = originVertex->addEdge(destVertex, w, f);
         auto e2 = destVertex->findEdge(originVertex->getId());
 
         if(e2 != nullptr) {
-            if(e1->getCapacity() == e2->getCapacity()) {
+            if(e1->getWeight() == e2->getWeight()) {
                 e1->setReverse(e2);
                 e2->setReverse(e1);
             }
@@ -178,13 +186,13 @@ bool Graph::addEdge(int source, int dest, double c, double f) const {
     return false;
 }
 
-bool Graph::addBidirectionalEdge(int source, int dest, double c, double flow, double reverseFlow) const {
+bool Graph::addBidirectionalEdge(int source, int dest, double w, double flow, double reverseFlow) const {
     auto v1 = findVertex(source);
     auto v2 = findVertex(dest);
     if (v1 == nullptr || v2 == nullptr)
         return false;
-    auto e1 = v1->addEdge(v2, c, flow);
-    auto e2 = v2->addEdge(v1, c, reverseFlow);
+    auto e1 = v1->addEdge(v2, w, flow);
+    auto e2 = v2->addEdge(v1, w, reverseFlow);
     e1->setReverse(e2);
     e2->setReverse(e1);
     return true;
@@ -198,7 +206,7 @@ void Graph::TSPBacktracking(Vertex *currentVertex, int destId, int count, double
 
     if(count == this->vertices.size()) {
         Edge *finalEdge = currentVertex->findEdge(destId);
-        if(finalEdge) res = min(res, cost + finalEdge->getCapacity());
+        if(finalEdge) res = min(res, cost + finalEdge->getWeight());
         return;
     }
 
@@ -207,8 +215,84 @@ void Graph::TSPBacktracking(Vertex *currentVertex, int destId, int count, double
         Vertex *v = e->getDest();
         if(!v->isVisited()) {
             v->setVisited(true);
-            TSPBacktracking(v, destId, count + 1, cost + e->getCapacity(), res);
+            TSPBacktracking(v, destId, count + 1, cost + e->getWeight(), res);
             v->setVisited(false);
+        }
+    }
+}
+
+void Graph::TSPTriangular(double &res) {
+    this->prim();
+
+    vector<Vertex *> preorder;
+
+    for(const auto pair : vertices) {
+        Vertex *v = pair.second;
+        Edge *e = v->getPath();
+        if ( e != nullptr )
+            e->setFlow(e->getWeight());
+    }
+
+    preorderTraversal(findVertex(0), preorder, (int) vertices.size());
+
+    for (size_t i = 0; i < preorder.size() - 1; ++i) {
+        Vertex *v = preorder[i];
+        Vertex *u = preorder[i+1];
+        // cout << u->getId() << " ";
+        res += v->findEdge(u->getId())->getWeight();
+    }
+
+    Vertex *v = preorder[preorder.size() - 1];
+    res += v->findEdge(0)->getWeight();
+}
+
+void Graph::prim() {
+    if (vertices.empty()) return;
+
+    for (auto pair : vertices) {
+        Vertex *v = pair.second;
+        v->setDist(numeric_limits<double>::max());
+        v->setPath(nullptr);
+        v->setVisited(false);
+    }
+
+    Vertex* s = findVertex(0);
+
+    s->setDist(0);
+    MutablePriorityQueue<Vertex> q;
+    q.insert(s);
+
+    while (!q.empty()) {
+        auto v = q.extractMin();
+        v->setVisited(true);
+
+        for (auto pair : vertices) {
+            Vertex *u = pair.second;
+            if(u->getId() == v->getId()) continue;
+
+            Edge *e = v->findEdge(u->getId());
+
+            if  (!e) {
+                if (v->getLongitude() == numeric_limits<double>::max() ||
+                    v->getLatitude() == numeric_limits<double>::max())
+                    throw runtime_error("Edge not found");
+                double weight = haversine(v->getLatitude(), v->getLongitude(), u->getLatitude(), u->getLongitude());
+
+                this->addBidirectionalEdge(v->getId(), u->getId(), weight);
+                e = v->findEdge(u->getId());
+            }
+
+            if (!u->isVisited()) {
+                double oldDist = u->getDist();
+
+                if (e->getWeight() < oldDist) {
+                    u->setDist(e->getWeight());
+                    u->setPath(e);
+
+                    if (oldDist == numeric_limits<double>::max()) q.insert(u);
+                    else q.decreaseKey(u);
+                }
+            }
         }
     }
 }
