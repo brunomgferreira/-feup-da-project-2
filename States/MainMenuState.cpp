@@ -57,7 +57,11 @@ void MainMenuState::handleInput(App* app) {
                         app->setState(new GetNodesFileMenuState());
                         break;
                     case '2':
-                        app->setState(this);
+                        clock_t start, end;
+                        start = clock();
+                        app->getData()->TSPBacktracking();
+                        end = clock();
+                        cout << "Elapsed time: " << fixed <<  setprecision(2) << double(end - start) / CLOCKS_PER_SEC << "s" << endl;
                         PressEnterToContinue();
                         break;
                     case '3':

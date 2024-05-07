@@ -36,7 +36,7 @@ void GetNodesFileMenuState::handleInput(App* app) {
                         start = clock();
                         app->setData();
                         end = clock();
-                        cout << "Elapsed time: " << setprecision(2) << double(end - start) / CLOCKS_PER_SEC << "s" << endl;
+                        cout << "Elapsed time: " << fixed <<  setprecision(2) << double(end - start) / CLOCKS_PER_SEC << "s" << endl;
                         cout << "Network loaded successfully! " << endl;
                         PressEnterToContinue(1);
                         app->setState(new MainMenuState());
@@ -52,7 +52,7 @@ void GetNodesFileMenuState::handleInput(App* app) {
                     start = clock();
                     app->setData();
                     end = clock();
-                    cout << "Elapsed time: " << setprecision(2) << double(end - start) / CLOCKS_PER_SEC << "s" << endl;
+                    cout << "Elapsed time: " << fixed <<  setprecision(2) << double(end - start) / CLOCKS_PER_SEC << "s" << endl;
                     cout << "Network loaded successfully! " << endl;
                     PressEnterToContinue(1);
                     app->setState(new MainMenuState());

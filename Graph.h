@@ -23,7 +23,7 @@ private:
     int id;            // id of the node
     double longitude{};
     double latitude{};
-    vector<Edge *> adj;  // outgoing edges
+    unordered_map<int, Edge *> adj;  // outgoing edges
 
     double flow = 0;
 
@@ -86,7 +86,7 @@ public:
      *
      * @return Vector of pointers to adjacent edges.
      */
-    [[nodiscard]] vector<Edge *> getAdj() const;
+    [[nodiscard]] unordered_map<int, Edge *> getAdj() const;
 
     /**
      * @brief Check if the vertex has been visited.
@@ -171,7 +171,7 @@ public:
      *
      * @return Pointer to the found edge if exists, otherwise nullptr.
      */
-    Edge * findEdge(Vertex *destVertex);
+    Edge * findEdge(int destId);
 };
 
 /********************** Edge  ****************************/
@@ -379,6 +379,8 @@ public:
      * @complexity O(1)
      */
     unordered_map<int, Vertex *> getVertexSet() const;
+
+    void TSPBacktracking(Vertex *currentVertex, int destId, int count, double cost, double &res);
 };
 
 #endif //FEUP_DA_PROJECT_2_GRAPH_H
