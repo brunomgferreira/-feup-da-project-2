@@ -1,11 +1,13 @@
 #ifndef FEUP_DA_PROJECT_2_GRAPH_H
 #define FEUP_DA_PROJECT_2_GRAPH_H
 
+#include "data_structures/MutablePriorityQueue.h"
 
 #include <iostream>
 #include <vector>
 #include <queue>
 #include <limits>
+#include <cmath>
 #include <algorithm>
 #include <unordered_map>
 
@@ -21,8 +23,8 @@ class Edge;
 class Vertex {
 private:
     int id;            // id of the node
-    double longitude{};
-    double latitude{};
+    double longitude = numeric_limits<double>::max();
+    double latitude = numeric_limits<double>::max();
     unordered_map<int, Edge *> adj;  // outgoing edges
 
     double flow = 0;
@@ -33,6 +35,9 @@ private:
     Edge *path = nullptr;
 
     vector<Edge *> incoming; // incoming edges
+    int queueIndex = 0; 		// required by MutablePriorityQueue
+
+    friend class MutablePriorityQueue<Vertex>;
 
 public:
 
@@ -146,6 +151,10 @@ public:
      */
     void setVisited(bool isVisited);
 
+    double getDist() const;
+
+    void setDist(double value);
+
     /**
      * @brief Set the path associated with the vertex.
      *
@@ -157,12 +166,12 @@ public:
      * @brief Add an edge between this vertex and a destination vertex.
      *
      * @param dest Pointer to the destination vertex.
-     * @param c Capacity of the edge.
+     * @param w Weight of the edge.
      * @param f Flow of the edge.
      *
      * @return Pointer to the newly added edge.
      */
-    Edge * addEdge(Vertex *dest, double c, double f = 0);
+    Edge * addEdge(Vertex *dest, double w, double f = 0);
 
     /**
      * @brief Find an edge between this vertex and a destination vertex.
@@ -182,7 +191,7 @@ public:
 class Edge {
 private:
     Vertex *dest; // destination vertex
-    double capacity; // edge capacity
+    double weight; // edge weight
 
     // used for bidirectional edges
     Vertex *orig;
@@ -194,13 +203,13 @@ public:
     /**
     * @brief Constructor for the Edge class.
     *
-    * @details Initializes an instance of the Edge class with the specified origin vertex, destination vertex and edge capacity.
+    * @details Initializes an instance of the Edge class with the specified origin vertex, destination vertex and edge weight.
     *
     * @param orig Pointer to the origin vertex.
     * @param dest Pointer to the destination vertex.
-    * @param capacity Capacity of the edge.
+    * @param weight Weight of the edge.
     */
-    Edge(Vertex *orig, Vertex *dest, double capacity);
+    Edge(Vertex *orig, Vertex *dest, double weight);
 
     /**
     * @brief Get the destination vertex associated with the edge.
@@ -210,12 +219,12 @@ public:
     [[nodiscard]] Vertex * getDest() const;
 
     /**
-     * @brief Get the capacity associated with the edge.
+     * @brief Get the weight associated with the edge.
      *
-     * @return The capacity of the edge.
+     * @return The weight of the edge.
      *
      */
-    [[nodiscard]] double getCapacity() const;
+    [[nodiscard]] double getWeight() const;
 
     /**
      * @brief Get the origin vertex associated with the edge.
@@ -328,12 +337,12 @@ public:
      * destination id. If either of the vertices does not exist in the graph, the function returns
      * false, indicating that the edge could not be added. Otherwise, it adds the edge to the origin
      * vertex and checks if there is a corresponding reverse edge in the destination vertex. If a
-     * reverse edge exists and has the same capacity as the newly added edge, it sets the reverse
+     * reverse edge exists and has the same weight as the newly added edge, it sets the reverse
      * pointers for both edges to maintain bidirectionality.
      *
      * @param source The id of the source vertex.
      * @param dest The id of the destination vertex.
-     * @param c The capacity of the edge.
+     * @param w The weight of the edge.
      * @param f The flow through the edge from source to dest.
      *
      * @return True if the edge is successfully added, false otherwise.
@@ -342,7 +351,7 @@ public:
      * vertices in the graph, adding edges to the vertices, and setting reverse pointers, all of which
      * are O(1) in the worst case.
      */
-    bool addEdge(int source, int dest, double c, double f = 0) const;
+    bool addEdge(int source, int dest, double w, double f = 0) const;
 
     /**
      * @brief Adds a bidirectional edge between two vertices in the graph.
@@ -350,12 +359,12 @@ public:
      * @details This function adds a bidirectional edge between the vertices with the given source and
      * destination ids. If either of the vertices does not exist in the graph, the function returns
      * false, indicating that the edge could not be added. Otherwise, it creates two edges: one from
-     * source to dest and another from dest to source, each with the specified capacity and flow.
+     * source to dest and another from dest to source, each with the specified weight and flow.
      * Additionally, it sets the reverse pointers for the edges to maintain bidirectionality.
      *
      * @param source The id of the source vertex.
      * @param dest The id of the destination vertex.
-     * @param c The capacity of the edge.
+     * @param w The weight of the edge.
      * @param flow The flow through the edge from source to dest.
      * @param reverseFlow The flow through the reverse edge from dest to source.
      *
@@ -365,7 +374,7 @@ public:
      * vertices in the graph, adding edges to the vertices, and setting reverse pointers, all of which
      * are O(1) in the worst case.
      */
-    bool addBidirectionalEdge(int source, int dest, double c, double flow = 0, double reverseFlow = 0) const;
+    bool addBidirectionalEdge(int source, int dest, double w, double flow = 0, double reverseFlow = 0) const;
 
     /**
      * @brief Retrieves the set of vertices in the graph.
@@ -381,6 +390,53 @@ public:
     unordered_map<int, Vertex *> getVertexSet() const;
 
     void TSPBacktracking(Vertex *currentVertex, int destId, int count, double cost, double &res);
+
+    void TSPTriangular(double &res);
+
+    void prim();
 };
+
+// AUX functions
+
+inline void preorderTraversal(Vertex *v, std::vector<Vertex *> &preorder, int n) {
+    if (v == nullptr) return;
+    preorder.push_back(v);
+
+    for (auto pair : v->getAdj()) {
+        Edge *e = pair.second;
+
+        if(e->getFlow() != e->getWeight()) continue;
+        Vertex *w = e->getDest();
+
+        if(preorder.size() == n) return;
+
+        preorderTraversal(w, preorder, n);
+    }
+}
+
+inline double convert_to_radians(const double coord)
+{
+    return coord * (M_PI / 180);
+}
+
+inline double haversine(const double lat1, const double lon1, const double lat2, const double lon2)
+{
+    const double earths_radius = 6371;
+
+    // Get the difference between our two points then convert the difference into radians
+    const double delta_lat = convert_to_radians(lat2 - lat1);
+    const double delta_lon = convert_to_radians(lon2 - lon1);
+
+    const double converted_lat1 = convert_to_radians(lat1);
+    const double converted_lat2 = convert_to_radians(lat2);
+
+    const double aux = pow(sin(delta_lat / 2), 2) + cos(converted_lat1) * cos(converted_lat2) * pow(sin(delta_lon / 2), 2);
+
+    const double c = 2 * atan2(sqrt(aux), sqrt(1 - aux));
+    const double distance = earths_radius * c;
+
+    return distance;
+}
+
 
 #endif //FEUP_DA_PROJECT_2_GRAPH_H

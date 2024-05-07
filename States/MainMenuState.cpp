@@ -51,21 +51,40 @@ void MainMenuState::handleInput(App* app) {
             }
         }
         else {
+                clock_t start, end;
                 switch (choice[0]) {
                     case '1':
                         app->clearData();
                         app->setState(new GetNodesFileMenuState());
                         break;
                     case '2':
-                        clock_t start, end;
-                        start = clock();
-                        app->getData()->TSPBacktracking();
-                        end = clock();
-                        cout << "Elapsed time: " << fixed <<  setprecision(2) << double(end - start) / CLOCKS_PER_SEC << "s" << endl;
+                        try {
+                            start = clock();
+                            app->getData()->TSPBacktracking();
+                            end = clock();
+                            cout << "Elapsed time: " << fixed <<  setprecision(2) << double(end - start) / CLOCKS_PER_SEC << "s" << endl << endl;
+                        } catch (...) {
+                            cout << "\033[31m";
+                            cout << endl;
+                            cout << "Theres was an error!" << endl;
+                            cout << "Please check your graph." << endl << endl;
+                            cout << "\033[0m";
+                        }
                         PressEnterToContinue();
                         break;
                     case '3':
-                        app->setState(this);
+                        try {
+                            start = clock();
+                            app->getData()->TSPTriangular();
+                            end = clock();
+                            cout << "Elapsed time: " << fixed <<  setprecision(2) << double(end - start) / CLOCKS_PER_SEC << "s" << endl << endl;
+                        } catch (...) {
+                            cout << "\033[31m";
+                            cout << endl;
+                            cout << "Theres was an error!" << endl;
+                            cout << "Please check your graph." << endl << endl;
+                            cout << "\033[0m";
+                        }
                         PressEnterToContinue();
                         break;
                     case '4':
