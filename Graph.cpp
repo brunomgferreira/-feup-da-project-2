@@ -137,6 +137,14 @@ void Edge::setFlow(double newFlow) {
     this->flow = newFlow;
 }
 
+bool Edge::getSelected() const {
+    return this->selected;
+}
+
+void Edge::setSelected(bool value) {
+    this->selected = value;
+}
+
 
 /********************** Graph  ****************************/
 
@@ -230,7 +238,8 @@ void Graph::TSPTriangular(double &res) {
         Vertex *v = pair.second;
         Edge *e = v->getPath();
         if ( e != nullptr )
-            e->setFlow(e->getWeight());
+            e->setSelected(true);
+        // cout << v->getId() << " " << endl;
     }
 
     preorderTraversal(findVertex(0), preorder, (int) vertices.size());
@@ -238,7 +247,7 @@ void Graph::TSPTriangular(double &res) {
     for (size_t i = 0; i < preorder.size() - 1; ++i) {
         Vertex *v = preorder[i];
         Vertex *u = preorder[i+1];
-        // cout << u->getId() << " ";
+        //cout << u->getId() << " " << i << endl;
         res += v->findEdge(u->getId())->getWeight();
     }
 

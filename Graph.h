@@ -196,6 +196,7 @@ private:
     // used for bidirectional edges
     Vertex *orig;
     Edge *reverse = nullptr;
+    bool selected = false;
 
     double flow{}; // for flow-related problems
 
@@ -263,6 +264,10 @@ public:
      * @param newFlow The new flow value to set.
      */
     void setFlow(double newFlow);
+
+    bool getSelected() const;
+
+    void setSelected(bool value);
 };
 
 /********************** Graph  ****************************/
@@ -399,13 +404,12 @@ public:
 // AUX functions
 
 inline void preorderTraversal(Vertex *v, std::vector<Vertex *> &preorder, int n) {
-    if (v == nullptr) return;
     preorder.push_back(v);
 
     for (auto pair : v->getAdj()) {
         Edge *e = pair.second;
 
-        if(e->getFlow() != e->getWeight()) continue;
+        if(!e->getSelected()) continue;
         Vertex *w = e->getDest();
 
         if(preorder.size() == n) return;
