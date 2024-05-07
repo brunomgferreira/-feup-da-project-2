@@ -42,4 +42,5 @@ void TryAgainState::handleInput(App* app) {
         cout << "Invalid input. Please enter a single character." << endl;
         cout << "\033[0m";
     }
+    cin.ignore();
 }

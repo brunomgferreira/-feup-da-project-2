@@ -23,7 +23,7 @@ double Vertex::getLatitude() const {
     return this->latitude;
 }
 
-vector<Edge *> Vertex::getAdj() const {
+unordered_map<int, Edge *> Vertex::getAdj() const {
     return this->adj;
 }
 
@@ -48,7 +48,7 @@ bool Vertex::hasFlow() const {
     double outFlow = 0;
 
     for (auto e: this->getIncoming()) inFlow += e->getFlow();
-    for (auto e: this->getAdj()) outFlow += e->getFlow();
+    for (auto pair: this->getAdj()) outFlow += pair.second->getFlow();
 
     if((inFlow > 0) || (outFlow > 0)) return true;
     return false;
@@ -61,8 +61,8 @@ void Vertex::setFlow(double value) {
 void Vertex::updateFlow() {
     double incomingFlow = 0;
     if(this->incoming.empty()) {
-        for (auto e: this->adj) {
-            incomingFlow += e->getFlow();
+        for (auto pair: this->adj) {
+            incomingFlow += pair.second->getFlow();
         }
     }
     else {
@@ -84,17 +84,15 @@ void Vertex::setPath(Edge *newPath) {
 Edge * Vertex::addEdge(Vertex *dest, double c, double f) {
     auto newEdge = new Edge(this, dest, c);
     newEdge->setFlow(f);
-    adj.push_back(newEdge);
+    adj.insert({dest->getId(), newEdge});
     dest->incoming.push_back(newEdge);
     return newEdge;
 }
 
-Edge * Vertex::findEdge(Vertex *destVertex) {
-    for(auto e : adj) {
-        Vertex *dest = e->getDest();
-        if(dest->getId() == destVertex->getId()) {
-            return e;
-        }
+Edge * Vertex::findEdge(int destId) {
+    auto it = this->adj.find(destId);
+    if (it != this->adj.end()) {
+        return it->second;
     }
     return nullptr;
 }
@@ -166,7 +164,7 @@ bool Graph::addEdge(int source, int dest, double c, double f) const {
 
     if (originVertex && destVertex) {
         auto e1 = originVertex->addEdge(destVertex, c, f);
-        auto e2 = destVertex->findEdge(originVertex);
+        auto e2 = destVertex->findEdge(originVertex->getId());
 
         if(e2 != nullptr) {
             if(e1->getCapacity() == e2->getCapacity()) {
@@ -194,4 +192,23 @@ bool Graph::addBidirectionalEdge(int source, int dest, double c, double flow, do
 
 unordered_map<int, Vertex *> Graph::getVertexSet() const {
     return this->vertices;
+}
+
+void Graph::TSPBacktracking(Vertex *currentVertex, int destId, int count, double cost, double &res) {
+
+    if(count == this->vertices.size()) {
+        Edge *finalEdge = currentVertex->findEdge(destId);
+        if(finalEdge) res = min(res, cost + finalEdge->getCapacity());
+        return;
+    }
+
+    for(auto pair : currentVertex->getAdj()) {
+        Edge *e = pair.second;
+        Vertex *v = e->getDest();
+        if(!v->isVisited()) {
+            v->setVisited(true);
+            TSPBacktracking(v, destId, count + 1, cost + e->getCapacity(), res);
+            v->setVisited(false);
+        }
+    }
 }

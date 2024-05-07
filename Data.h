@@ -42,6 +42,8 @@ public:
     void readEdgesFile(ifstream &file);
 
     void readNodesFile(ifstream &file);
+
+    void TSPBacktracking();
 };
 
 

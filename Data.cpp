@@ -109,3 +109,18 @@ void Data::readNodesFile(ifstream &file) {
     }
 }
 
+void Data::TSPBacktracking() {
+
+    for(auto pair : g.getVertexSet()) {
+        pair.second->setVisited(false);
+    }
+
+    double res = MAXFLOAT;
+    Vertex *v = g.findVertex(0);
+    v->setVisited(true);
+
+    g.TSPBacktracking(v, 0, 1, 0, res);
+
+    cout << "TSP Backtracking result: " << setprecision(1) << res << endl;
+}
+
