@@ -374,3 +374,50 @@ void Graph::TSPNearestNeighbor(double &res) {
     }
     res += getEdgeWeight(v->getId(), 0);
 }
+
+void Graph::TSPRealWorldNearestNeighbor(double &res) {
+    for (auto& pair : vertices) {
+        pair.second->setVisited(false);
+    }
+
+    int count = 0;
+    Vertex* v = findVertex(0);
+    double currentWeight;
+    Vertex* nearestNeighbor = nullptr;
+
+    while (count < vertices.size()) {
+        currentWeight = numeric_limits<double>::max();
+
+        for (auto& pair : vertices) {
+            Vertex* u = pair.second;
+
+            if (u->isVisited()) continue;
+
+            Edge* e = v->findEdge(u->getId());
+
+            double weight = numeric_limits<double>::max();
+
+            if (e) weight = e->getWeight();
+
+            if (currentWeight > weight) {
+                currentWeight = weight;
+                nearestNeighbor = u;
+            }
+        }
+
+        if(!nearestNeighbor) throw runtime_error("No neighbour vertex found!");
+        nearestNeighbor->setVisited(true);
+        res += currentWeight;
+        v = nearestNeighbor;
+
+        count++;
+    }
+
+    Edge* e = v->findEdge(0);
+    double weight = numeric_limits<double>::max();
+    if (e) weight = e->getWeight();
+
+    res += weight;
+
+    if(res >= numeric_limits<double>::max()) throw runtime_error("No path found!");
+}
