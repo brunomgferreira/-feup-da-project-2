@@ -88,7 +88,18 @@ void MainMenuState::handleInput(App* app) {
                         PressEnterToContinue();
                         break;
                     case '4':
-                        app->setState(this);
+                        try {
+                            start = clock();
+                            app->getData()->TSPNearestNeighbor();
+                            end = clock();
+                            cout << "Elapsed time: " << fixed <<  setprecision(2) << double(end - start) / CLOCKS_PER_SEC << "s" << endl << endl;
+                        } catch (...) {
+                            cout << "\033[31m";
+                            cout << endl;
+                            cout << "Theres was an error!" << endl;
+                            cout << "Please check your graph." << endl << endl;
+                            cout << "\033[0m";
+                        }
                         PressEnterToContinue();
                         break;
                     case '5':

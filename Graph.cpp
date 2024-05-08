@@ -1,4 +1,5 @@
 #include <valarray>
+#include <stack>
 #include "Graph.h"
 
 /************************* Vertex  **************************/
@@ -210,6 +211,30 @@ unordered_map<int, Vertex *> Graph::getVertexSet() const {
     return this->vertices;
 }
 
+double Graph::getEdgeWeight(int sourceId, int destId) {
+    Vertex* source = findVertex(sourceId);
+    Vertex* dest = findVertex(destId);
+    if (!source || !dest) {
+        throw runtime_error("Invalid source or destination vertex");
+    }
+    Edge* edge = source->findEdge(destId);
+    if (!edge) {
+        double weight;
+        if (source->getLongitude() == numeric_limits<double>::max() ||
+            source->getLatitude() == numeric_limits<double>::max() ||
+            dest->getLongitude() == numeric_limits<double>::max() ||
+            dest->getLatitude() == numeric_limits<double>::max()) {
+            throw runtime_error("Edge not found");
+        } else {
+            weight = haversine(source->getLatitude(), source->getLongitude(), dest->getLatitude(), dest->getLongitude());
+            addBidirectionalEdge(sourceId, destId, weight);
+        }
+        return weight;
+    } else {
+        return edge->getWeight();
+    }
+}
+
 void Graph::TSPBacktracking(Vertex *currentVertex, int destId, int count, double cost, double &res) {
 
     if(count == this->vertices.size()) {
@@ -304,4 +329,48 @@ void Graph::prim() {
             }
         }
     }
+}
+
+void Graph::TSPNearestNeighbor(double &res) {
+    for (auto& pair : vertices) {
+        pair.second->setVisited(false);
+    }
+
+    int count = 0;
+    Vertex* v = findVertex(0);
+    double currentWeight;
+    Vertex* nearestNeighbor = nullptr;
+
+    while (count < vertices.size()) {
+        currentWeight = numeric_limits<double>::max();
+
+        for (auto& pair : vertices) {
+            Vertex* u = pair.second;
+
+            if (u->isVisited()) continue;
+
+            Edge* e = v->findEdge(u->getId());
+
+            if (!e) {
+                double weight = haversine(v->getLatitude(), v->getLongitude(), u->getLatitude(), u->getLongitude());
+                this->addBidirectionalEdge(v->getId(), u->getId(), weight);
+                e = v->findEdge(u->getId());
+            }
+
+            double weight = e->getWeight();
+
+            if (currentWeight > weight) {
+                currentWeight = weight;
+                nearestNeighbor = u;
+            }
+        }
+
+        if(!nearestNeighbor) throw runtime_error("No neighbour vertex found!");
+        nearestNeighbor->setVisited(true);
+        res += currentWeight;
+        v = nearestNeighbor;
+
+        count++;
+    }
+    res += getEdgeWeight(v->getId(), 0);
 }

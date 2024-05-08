@@ -134,3 +134,12 @@ void Data::TSPTriangular() {
     cout << "TSP Triangular approximation result: " << setprecision(1) << res << endl;
 }
 
+void Data::TSPNearestNeighbor() {
+
+    double res = 0;
+    g.TSPNearestNeighbor(res);
+
+    cout << endl;
+    cout << "TSP Nearest Neighbor result: " << setprecision(1) << res << endl;
+}
+

@@ -47,6 +47,8 @@ public:
     void TSPBacktracking();
 
     void TSPTriangular();
+
+    void TSPNearestNeighbor();
 };
 
 
