@@ -49,6 +49,8 @@ public:
     void TSPTriangular();
 
     void TSPNearestNeighbor();
+
+    void TSPRealWorldNearestNeighbor();
 };
 
 

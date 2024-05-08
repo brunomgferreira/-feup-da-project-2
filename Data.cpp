@@ -143,3 +143,19 @@ void Data::TSPNearestNeighbor() {
     cout << "TSP Nearest Neighbor result: " << setprecision(1) << res << endl;
 }
 
+void Data::TSPRealWorldNearestNeighbor() {
+
+    try {
+        double res = 0;
+        g.TSPRealWorldNearestNeighbor(res);
+
+        cout << endl;
+        cout << "TSP Real World Nearest Neighbor result: " << setprecision(1) << res << endl;
+    } catch (...) {
+        cout << "\033[31m";
+        cout << endl;
+        cout << "There is no possible solution!" << endl << endl;
+        cout << "\033[0m";
+    }
+}
+

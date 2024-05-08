@@ -414,6 +414,8 @@ public:
     void prim();
 
     void TSPNearestNeighbor(double &res);
+
+    void TSPRealWorldNearestNeighbor(double &res);
 };
 
 // AUX functions
