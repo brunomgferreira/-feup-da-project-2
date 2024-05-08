@@ -10,6 +10,7 @@
 #include <cmath>
 #include <algorithm>
 #include <unordered_map>
+#include <unordered_set>
 
 using namespace std;
 
@@ -275,10 +276,20 @@ public:
 /**
 * @brief Class representing a graph.
 */
+
+struct pair_hash {
+    template <class T1, class T2>
+    std::size_t operator () (const std::pair<T1, T2>& pair) const {
+        auto hash1 = std::hash<T1>{}(pair.first);
+        auto hash2 = std::hash<T2>{}(pair.second);
+        return hash1 ^ hash2;
+    }
+};
+
 class Graph {
 private:
     unordered_map<int, Vertex *> vertices;    // vertex set
-
+    unordered_map<pair<int, int>, double, pair_hash> memo;
 public:
 
     /**
@@ -394,11 +405,15 @@ public:
      */
     unordered_map<int, Vertex *> getVertexSet() const;
 
+    double getEdgeWeight(int sourceId, int destId);
+
     void TSPBacktracking(Vertex *currentVertex, int destId, int count, double cost, double &res);
 
     void TSPTriangular(double &res);
 
     void prim();
+
+    void TSPNearestNeighbor(double &res);
 };
 
 // AUX functions
@@ -425,7 +440,7 @@ inline double convert_to_radians(const double coord)
 
 inline double haversine(const double lat1, const double lon1, const double lat2, const double lon2)
 {
-    const double earths_radius = 6371;
+    const double earths_radius = 6371000;
 
     // Get the difference between our two points then convert the difference into radians
     const double delta_lat = convert_to_radians(lat2 - lat1);
