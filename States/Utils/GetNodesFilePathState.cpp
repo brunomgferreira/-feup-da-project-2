@@ -10,7 +10,6 @@ void GetNodesFilePathState::display() const {
 
 void GetNodesFilePathState::handleInput(App* app) {
     string path;
-    cin.ignore();
     getline(cin, path);
     filesystem::path file_path;
 

@@ -28,6 +28,7 @@ void GetNodesFileMenuState::handleInput(App* app) {
     if (choice.size() == 1) {
         switch (choice[0]) {
             case '1':
+                cin.ignore();
                 app->setState(new GetNodesFilePathState(this, [&](App *app) {
                     PressEnterToContinue(1);
                     app->setState(new GetEdgesFilePathState(this, [&](App *app) {
