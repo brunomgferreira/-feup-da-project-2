@@ -33,7 +33,7 @@ private:
     // auxiliary fields
     bool visited = false; // used by DFS, BFS, Prim ...
     double dist = 0;
-    Edge *path = nullptr;
+    Vertex *path = nullptr;
 
     vector<Edge *> incoming; // incoming edges
     int queueIndex = 0; 		// required by MutablePriorityQueue
@@ -104,9 +104,9 @@ public:
     /**
      * @brief Get the path associated with the vertex.
      *
-     * @return Pointer to the path edge.
+     * @return Pointer to the path vertex.
      */
-    [[nodiscard]] Edge *getPath() const;
+    [[nodiscard]] Vertex *getPath() const;
 
     /**
      * @brief Get the incoming edges of the vertex.
@@ -159,9 +159,9 @@ public:
     /**
      * @brief Set the path associated with the vertex.
      *
-     * @param newPath Pointer to the new path edge.
+     * @param newPath Pointer to the new path vertex.
      */
-    void setPath(Edge *newPath);
+    void setPath(Vertex *newPath);
 
     /**
      * @brief Add an edge between this vertex and a destination vertex.
@@ -405,7 +405,7 @@ public:
      */
     unordered_map<int, Vertex *> getVertexSet() const;
 
-    double getEdgeWeight(int sourceId, int destId);
+    double getEdgeWeight(Vertex* source, Vertex* dest);
 
     void TSPBacktracking(Vertex *currentVertex, int destId, int count, double cost, double &res);
 
@@ -413,27 +413,14 @@ public:
 
     void prim();
 
+    void preorderTraversal(Vertex *v, std::vector<Vertex *> &preorder, int n);
+
     void TSPNearestNeighbor(double &res);
 
     void TSPRealWorldNearestNeighbor(double &res);
 };
 
 // AUX functions
-
-inline void preorderTraversal(Vertex *v, std::vector<Vertex *> &preorder, int n) {
-    preorder.push_back(v);
-
-    for (auto pair : v->getAdj()) {
-        Edge *e = pair.second;
-
-        if(!e->getSelected()) continue;
-        Vertex *w = e->getDest();
-
-        if(preorder.size() == n) return;
-
-        preorderTraversal(w, preorder, n);
-    }
-}
 
 inline double convert_to_radians(const double coord)
 {

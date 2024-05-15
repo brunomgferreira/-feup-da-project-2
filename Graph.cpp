@@ -32,7 +32,7 @@ bool Vertex::isVisited() const {
     return this->visited;
 }
 
-Edge *Vertex::getPath() const {
+Vertex *Vertex::getPath() const {
     return this->path;
 }
 
@@ -86,7 +86,7 @@ void Vertex::setVisited(bool isVisited) {
     this->visited = isVisited;
 }
 
-void Vertex::setPath(Edge *newPath) {
+void Vertex::setPath(Vertex *newPath) {
     this->path = newPath;
 }
 
@@ -211,27 +211,18 @@ unordered_map<int, Vertex *> Graph::getVertexSet() const {
     return this->vertices;
 }
 
-double Graph::getEdgeWeight(int sourceId, int destId) {
-    Vertex* source = findVertex(sourceId);
-    Vertex* dest = findVertex(destId);
-    if (!source || !dest) {
-        throw runtime_error("Invalid source or destination vertex");
-    }
-    Edge* edge = source->findEdge(destId);
-    if (!edge) {
-        double weight;
+double Graph::getEdgeWeight(Vertex* source, Vertex* dest) {
+    //cout << u->getId() << " " << i << endl;
+    Edge* e = source->findEdge(dest->getId());
+    if (!e) {
         if (source->getLongitude() == numeric_limits<double>::max() ||
             source->getLatitude() == numeric_limits<double>::max() ||
             dest->getLongitude() == numeric_limits<double>::max() ||
-            dest->getLatitude() == numeric_limits<double>::max()) {
+            dest->getLatitude() == numeric_limits<double>::max())
             throw runtime_error("Edge not found");
-        } else {
-            weight = haversine(source->getLatitude(), source->getLongitude(), dest->getLatitude(), dest->getLongitude());
-            addBidirectionalEdge(sourceId, destId, weight);
-        }
-        return weight;
+        return haversine(source->getLatitude(), source->getLongitude(), dest->getLatitude(), dest->getLongitude());
     } else {
-        return edge->getWeight();
+        return e->getWeight();
     }
 }
 
@@ -259,25 +250,18 @@ void Graph::TSPTriangular(double &res) {
 
     vector<Vertex *> preorder;
 
-    for(const auto pair : vertices) {
-        Vertex *v = pair.second;
-        Edge *e = v->getPath();
-        if ( e != nullptr )
-            e->setSelected(true);
-        // cout << v->getId() << " " << endl;
-    }
-
     preorderTraversal(findVertex(0), preorder, (int) vertices.size());
 
     for (size_t i = 0; i < preorder.size() - 1; ++i) {
         Vertex *v = preorder[i];
         Vertex *u = preorder[i+1];
         //cout << u->getId() << " " << i << endl;
-        res += v->findEdge(u->getId())->getWeight();
+        res += getEdgeWeight(v, u);
     }
 
     Vertex *v = preorder[preorder.size() - 1];
-    res += v->findEdge(0)->getWeight();
+    Vertex *u = preorder[0];
+    res += getEdgeWeight(v, u);
 }
 
 void Graph::prim() {
@@ -304,30 +288,33 @@ void Graph::prim() {
             Vertex *u = pair.second;
             if(u->getId() == v->getId()) continue;
 
-            Edge *e = v->findEdge(u->getId());
-
-            if  (!e) {
-                if (v->getLongitude() == numeric_limits<double>::max() ||
-                    v->getLatitude() == numeric_limits<double>::max())
-                    throw runtime_error("Edge not found");
-                double weight = haversine(v->getLatitude(), v->getLongitude(), u->getLatitude(), u->getLongitude());
-
-                this->addBidirectionalEdge(v->getId(), u->getId(), weight);
-                e = v->findEdge(u->getId());
-            }
+            double weight = getEdgeWeight(v, u);
 
             if (!u->isVisited()) {
                 double oldDist = u->getDist();
 
-                if (e->getWeight() < oldDist) {
-                    u->setDist(e->getWeight());
-                    u->setPath(e);
+                if (weight < oldDist) {
+                    u->setDist(weight);
+                    u->setPath(v);
 
                     if (oldDist == numeric_limits<double>::max()) q.insert(u);
                     else q.decreaseKey(u);
                 }
             }
         }
+    }
+}
+
+void Graph::preorderTraversal(Vertex *v, std::vector<Vertex *> &preorder, int n) {
+    preorder.push_back(v);
+
+    for (auto pair : vertices) {
+        Vertex *u = pair.second;
+        if(!u->getPath() || u->getPath()->getId() != v->getId()) continue;
+
+        if(preorder.size() == n) return;
+
+        preorderTraversal(u, preorder, n);
     }
 }
 
@@ -349,15 +336,7 @@ void Graph::TSPNearestNeighbor(double &res) {
 
             if (u->isVisited()) continue;
 
-            Edge* e = v->findEdge(u->getId());
-
-            if (!e) {
-                double weight = haversine(v->getLatitude(), v->getLongitude(), u->getLatitude(), u->getLongitude());
-                this->addBidirectionalEdge(v->getId(), u->getId(), weight);
-                e = v->findEdge(u->getId());
-            }
-
-            double weight = e->getWeight();
+            double weight = getEdgeWeight(v, u);
 
             if (currentWeight > weight) {
                 currentWeight = weight;
@@ -372,7 +351,9 @@ void Graph::TSPNearestNeighbor(double &res) {
 
         count++;
     }
-    res += getEdgeWeight(v->getId(), 0);
+
+    Vertex *u = findVertex(0);
+    res += getEdgeWeight(v, u);
 }
 
 void Graph::TSPRealWorldNearestNeighbor(double &res) {
@@ -405,8 +386,11 @@ void Graph::TSPRealWorldNearestNeighbor(double &res) {
             }
         }
 
-        if(!nearestNeighbor) throw runtime_error("No neighbour vertex found!");
+        if (!nearestNeighbor) throw runtime_error("No neighbour vertex found!");
         nearestNeighbor->setVisited(true);
+
+        if (currentWeight >= numeric_limits<double>::max()) throw runtime_error("No path found!");
+
         res += currentWeight;
         v = nearestNeighbor;
 
@@ -419,5 +403,5 @@ void Graph::TSPRealWorldNearestNeighbor(double &res) {
 
     res += weight;
 
-    if(res >= numeric_limits<double>::max()) throw runtime_error("No path found!");
+    if (res >= numeric_limits<double>::max()) throw runtime_error("No path found!");
 }
