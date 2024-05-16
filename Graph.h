@@ -112,8 +112,18 @@ public:
      */
     void setVisited(bool isVisited);
 
+    /**
+     * @brief Get the distance associated with the vertex.
+     *
+     * @return Distance of the vertex.
+     */
     double getDist() const;
 
+    /**
+     * @brief Set the distance of the vertex.
+     *
+     * @param value The new distance of the vertex.
+     */
     void setDist(double value);
 
     /**
@@ -454,20 +464,21 @@ public:
      * @brief Solves the Traveling Salesman Problem (TSP) using the Real-World Nearest Neighbor heuristic.
      *
      * @details This function applies the Real-World Nearest Neighbor heuristic to find an approximate
-     * solution to the TSP. Starting from an arbitrary vertex, it iteratively selects the nearest unvisited
+     * solution to the TSP. Starting from a specified vertex, it iteratively selects the nearest unvisited
      * neighbor based on real-world distances (edge weights) until all vertices are visited, forming a
      * Hamiltonian cycle. It calculates the total cost of the cycle by summing the weights of the edges
      * traversed.
      *
      * @param res Reference to the variable to store the total cost of the Hamiltonian cycle.
+     * @param startingVertexId The ID of the vertex from which the traversal should start.
      *
      * @throws std::runtime_error If no neighboring vertex or path is found during the traversal.
      *
      * @complexity The time complexity of this function primarily depends on the number of vertices
      * in the graph and the implementation of finding the nearest neighbor, resulting in O(|V| + |E|),
      * where |V| is the number of vertices and |E| is the number of edges in the graph.
-    */
-    void TSPRealWorldNearestNeighbor(double &res);
+     */
+    void TSPRealWorldNearestNeighbor(double &res, int startingVertexId);
 };
 
 // AUX functions

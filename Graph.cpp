@@ -300,13 +300,13 @@ void Graph::TSPNearestNeighbor(double &res) {
     res += getEdgeWeight(v, u);
 }
 
-void Graph::TSPRealWorldNearestNeighbor(double &res) {
+void Graph::TSPRealWorldNearestNeighbor(double &res, int startingVertexId) {
     for (auto& pair : vertices) {
         pair.second->setVisited(false);
     }
 
     int count = 0;
-    Vertex* v = findVertex(0);
+    Vertex* v = findVertex(startingVertexId);
     double currentWeight;
     Vertex* nearestNeighbor = nullptr;
 

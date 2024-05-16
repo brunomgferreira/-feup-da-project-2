@@ -1,5 +1,6 @@
 #include "MainMenuState.h"
 #include "States/Utils/GetNodesFileMenuState.h"
+#include "States/Utils/GetStartingVertexState.h"
 
 MainMenuState::MainMenuState() = default;
 
@@ -103,19 +104,22 @@ void MainMenuState::handleInput(App* app) {
                         PressEnterToContinue();
                         break;
                     case '5':
-                        try {
-                            start = clock();
-                            app->getData()->TSPRealWorldNearestNeighbor();
-                            end = clock();
-                            cout << "Elapsed time: " << fixed <<  setprecision(2) << double(end - start) / CLOCKS_PER_SEC << "s" << endl << endl;
-                        } catch (...) {
-                            cout << "\033[31m";
-                            cout << endl;
-                            cout << "Theres was an error!" << endl;
-                            cout << "Please check your graph." << endl << endl;
-                            cout << "\033[0m";
-                        }
-                        PressEnterToContinue();
+                        app->setState(new GetStartingVertexState(this, [&](App *app, int id) {
+                            try {
+                                start = clock();
+                                app->getData()->TSPRealWorldNearestNeighbor(id);
+                                end = clock();
+                                cout << "Elapsed time: " << fixed <<  setprecision(2) << double(end - start) / CLOCKS_PER_SEC << "s" << endl << endl;
+                            } catch (...) {
+                                cout << "\033[31m";
+                                cout << endl;
+                                cout << "Theres was an error!" << endl;
+                                cout << "Please check your graph." << endl << endl;
+                                cout << "\033[0m";
+                            }
+                            PressEnterToContinue();
+                            app->setState(new MainMenuState);
+                        }));
                         break;
                     case 'q':
                         cout << "\033[32m";

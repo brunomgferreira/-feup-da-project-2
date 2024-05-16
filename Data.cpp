@@ -109,6 +109,12 @@ void Data::readNodesFile(ifstream &file) {
     }
 }
 
+bool Data::vertexExists(int id) {
+    Vertex *v = g.findVertex(id);
+    if(v) return true;
+    return false;
+}
+
 void Data::TSPBacktracking() {
 
     for(auto pair : g.getVertexSet()) {
@@ -143,12 +149,13 @@ void Data::TSPNearestNeighbor() {
     cout << "TSP Nearest Neighbor result: " << setprecision(1) << res << endl;
 }
 
-void Data::TSPRealWorldNearestNeighbor() {
+void Data::TSPRealWorldNearestNeighbor(int startingVertexId) {
 
     try {
         double res = 0;
-        g.TSPRealWorldNearestNeighbor(res);
+        g.TSPRealWorldNearestNeighbor(res, startingVertexId);
 
+        cout << "Starting vertex id: " << startingVertexId << endl;
         cout << endl;
         cout << "TSP Real World Nearest Neighbor result: " << setprecision(1) << res << endl;
     } catch (...) {

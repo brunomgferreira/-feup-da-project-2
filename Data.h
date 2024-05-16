@@ -39,6 +39,8 @@ public:
     * of the graph is empty or not.
     *
     * @return true if the graph data is loaded, false otherwise.
+    *
+    * @complexity O(1).
     */
     bool isGraphLoaded();
 
@@ -48,6 +50,8 @@ public:
     * @details This method sets the file path for edges data in the Data object.
     *
     * @param file_path The file path to set for edges data.
+    *
+    * @complexity O(1).
     */
     void setEdgesFilePath(const filesystem::path &file);
 
@@ -57,6 +61,8 @@ public:
     * @details This method sets the file path for nodes data in the Data object.
     *
     * @param file_path The file path to set for nodes data.
+    *
+    * @complexity O(1).
     */
     void setNodesFilePath(const filesystem::path &file);
 
@@ -109,14 +115,30 @@ public:
     void readNodesFile(ifstream &file);
 
     /**
+    * @brief Checks the existence of a vertex.
+    *
+    * @details This method checks whether a vertex with the given id exists.
+    *
+    * @param id The id of the vertex to be checked for existence.
+    *
+    * @return True if the vertex exists, false otherwise.
+    *
+    * @complexity O(1), as the function performs a constant-time map lookup.
+    */
+    bool vertexExists(int id);
+
+    /**
     * @brief Solves the Traveling Salesman Problem (TSP) using backtracking.
     *
     * @details This method initializes the TSP solution process by setting all vertices as unvisited,
     * then starts the backtracking algorithm from the starting vertex (vertex with ID 0). It explores
     * all possible paths using backtracking and calculates the minimum cost of the TSP tour.
     * The final result is printed to the standard output.
+    *
+    * @complexity The time complexity of this function depends on the number of permutations of
+    * vertices to explore, resulting in O(V!) in the worst case, where 'V' is the number of
+    * vertices in the graph.
     */
-    // TODO complexity ???
     void TSPBacktracking();
 
     /**
@@ -126,7 +148,6 @@ public:
     * (MST) of the graph and then traversing it in a specific manner to form a tour.
     * The length of this tour is calculated and printed as the TSP triangular approximation result.
     */
-    // TODO complexity ???
     void TSPTriangular();
 
     /**
@@ -136,8 +157,11 @@ public:
     * and iteratively selecting the nearest unvisited neighbor until all vertices are visited.
     * The length of the resulting tour is calculated and printed as the TSP nearest neighbor
     * approximation result.
+    *
+    * @complexity The time complexity of this function primarily depends on the number of vertices
+    * in the graph and the implementation of finding the nearest neighbor, resulting in O(|V|^2),
+    * where |V| is the number of vertices.
     */
-    // TODO complexity ???
     void TSPNearestNeighbor();
 
     /**
@@ -153,9 +177,12 @@ public:
     * @param starting_vertex The ID of the starting vertex for the TSP tour.
     *
     * @throws std::runtime_error if no feasible solution is found within the constraints.
+    *
+    * @complexity The time complexity of this function primarily depends on the number of vertices
+    * in the graph and the implementation of finding the nearest neighbor, resulting in O(|V| + |E|),
+    * where |V| is the number of vertices and |E| is the number of edges in the graph.
     */
-    // TODO complexity ??
-    void TSPRealWorldNearestNeighbor();
+    void TSPRealWorldNearestNeighbor(int startingVertexId);
 };
 
 
