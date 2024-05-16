@@ -36,44 +36,6 @@ Vertex *Vertex::getPath() const {
     return this->path;
 }
 
-vector<Edge *> Vertex::getIncoming() const {
-    return this->incoming;
-}
-
-double Vertex::getFlow() const {
-    return this->flow;
-}
-
-bool Vertex::hasFlow() const {
-    double inFlow = 0;
-    double outFlow = 0;
-
-    for (auto e: this->getIncoming()) inFlow += e->getFlow();
-    for (auto pair: this->getAdj()) outFlow += pair.second->getFlow();
-
-    if((inFlow > 0) || (outFlow > 0)) return true;
-    return false;
-}
-
-void Vertex::setFlow(double value) {
-    this->flow = value;
-}
-
-void Vertex::updateFlow() {
-    double incomingFlow = 0;
-    if(this->incoming.empty()) {
-        for (auto pair: this->adj) {
-            incomingFlow += pair.second->getFlow();
-        }
-    }
-    else {
-        for (auto e: this->incoming) {
-            incomingFlow += e->getFlow();
-        }
-    }
-    this->flow = incomingFlow;
-}
-
 double Vertex::getDist() const {
     return this->dist;
 }
@@ -90,11 +52,9 @@ void Vertex::setPath(Vertex *newPath) {
     this->path = newPath;
 }
 
-Edge * Vertex::addEdge(Vertex *dest, double w, double f) {
+Edge * Vertex::addEdge(Vertex *dest, double w) {
     auto newEdge = new Edge(this, dest, w);
-    newEdge->setFlow(f);
     adj.insert({dest->getId(), newEdge});
-    dest->incoming.push_back(newEdge);
     return newEdge;
 }
 
@@ -126,24 +86,8 @@ Edge *Edge::getReverse() const {
     return this->reverse;
 }
 
-double Edge::getFlow() const {
-    return this->flow;
-}
-
 void Edge::setReverse(Edge *reverseEdge) {
     this->reverse = reverseEdge;
-}
-
-void Edge::setFlow(double newFlow) {
-    this->flow = newFlow;
-}
-
-bool Edge::getSelected() const {
-    return this->selected;
-}
-
-void Edge::setSelected(bool value) {
-    this->selected = value;
 }
 
 
@@ -175,12 +119,12 @@ bool Graph::addVertex(int id, double longitude, double latitude) {
     return false;
 }
 
-bool Graph::addEdge(int source, int dest, double w, double f) const {
+bool Graph::addEdge(int source, int dest, double w) const {
     Vertex *originVertex = findVertex(source);
     Vertex *destVertex = findVertex(dest);
 
     if (originVertex && destVertex) {
-        auto e1 = originVertex->addEdge(destVertex, w, f);
+        auto e1 = originVertex->addEdge(destVertex, w);
         auto e2 = destVertex->findEdge(originVertex->getId());
 
         if(e2 != nullptr) {
@@ -195,13 +139,13 @@ bool Graph::addEdge(int source, int dest, double w, double f) const {
     return false;
 }
 
-bool Graph::addBidirectionalEdge(int source, int dest, double w, double flow, double reverseFlow) const {
+bool Graph::addBidirectionalEdge(int source, int dest, double w) const {
     auto v1 = findVertex(source);
     auto v2 = findVertex(dest);
     if (v1 == nullptr || v2 == nullptr)
         return false;
-    auto e1 = v1->addEdge(v2, w, flow);
-    auto e2 = v2->addEdge(v1, w, reverseFlow);
+    auto e1 = v1->addEdge(v2, w);
+    auto e2 = v2->addEdge(v1, w);
     e1->setReverse(e2);
     e2->setReverse(e1);
     return true;

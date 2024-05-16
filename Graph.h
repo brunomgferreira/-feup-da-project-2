@@ -1,7 +1,7 @@
 #ifndef FEUP_DA_PROJECT_2_GRAPH_H
 #define FEUP_DA_PROJECT_2_GRAPH_H
 
-#include "data_structures/MutablePriorityQueue.h"
+#include "MutablePriorityQueue.h"
 
 #include <iostream>
 #include <vector>
@@ -28,14 +28,11 @@ private:
     double latitude = numeric_limits<double>::max();
     unordered_map<int, Edge *> adj;  // outgoing edges
 
-    double flow = 0;
-
     // auxiliary fields
     bool visited = false; // used by DFS, BFS, Prim ...
     double dist = 0;
     Vertex *path = nullptr;
 
-    vector<Edge *> incoming; // incoming edges
     int queueIndex = 0; 		// required by MutablePriorityQueue
 
     friend class MutablePriorityQueue<Vertex>;
@@ -109,43 +106,6 @@ public:
     [[nodiscard]] Vertex *getPath() const;
 
     /**
-     * @brief Get the incoming edges of the vertex.
-     *
-     * @return Vector of pointers to incoming edges.
-     */
-    [[nodiscard]] vector<Edge *> getIncoming() const;
-
-    /**
-     * @brief Get the flow value associated with the vertex.
-     *
-     * @return The flow value of the vertex.
-     */
-    [[nodiscard]] double getFlow() const;
-
-    /**
-     * @brief Check if the vertex has non-zero flow.
-     *
-     * @return True if the vertex has non-zero flow, otherwise false.
-     *
-     * @complexity O(E)
-     */
-    [[nodiscard]] bool hasFlow() const;
-
-    /**
-     * @brief Set the flow value associated with the vertex.
-     *
-     * @param value The flow value to set.
-     */
-    void setFlow(double value);
-
-    /**
-     * @brief Update the flow value associated with the vertex based on incoming edges.
-     *
-     * @complexity O(n) where n is the number of incoming edges or, if there's no incoming edges the number of out edges.
-     */
-    void updateFlow();
-
-    /**
      * @brief Set the visited status of the vertex.
      *
      * @param isVisited True if the vertex is visited, otherwise false.
@@ -168,11 +128,10 @@ public:
      *
      * @param dest Pointer to the destination vertex.
      * @param w Weight of the edge.
-     * @param f Flow of the edge.
      *
      * @return Pointer to the newly added edge.
      */
-    Edge * addEdge(Vertex *dest, double w, double f = 0);
+    Edge * addEdge(Vertex *dest, double w);
 
     /**
      * @brief Find an edge between this vertex and a destination vertex.
@@ -197,9 +156,6 @@ private:
     // used for bidirectional edges
     Vertex *orig;
     Edge *reverse = nullptr;
-    bool selected = false;
-
-    double flow{}; // for flow-related problems
 
 public:
     /**
@@ -245,30 +201,11 @@ public:
     [[nodiscard]] Edge *getReverse() const;
 
     /**
-     * @brief Get the flow associated with the edge.
-     *
-     * @return The flow of the edge.
-     *
-     */
-    [[nodiscard]] double getFlow() const;
-
-    /**
      * @brief Set the reverse edge associated with this edge.
      *
      * @param reverseEdge Pointer to the reverse edge to set.
      */
     void setReverse(Edge *reverseEdge);
-
-    /**
-     * @brief Set the flow of the edge.
-     *
-     * @param newFlow The new flow value to set.
-     */
-    void setFlow(double newFlow);
-
-    bool getSelected() const;
-
-    void setSelected(bool value);
 };
 
 /********************** Graph  ****************************/
@@ -277,19 +214,10 @@ public:
 * @brief Class representing a graph.
 */
 
-struct pair_hash {
-    template <class T1, class T2>
-    std::size_t operator () (const std::pair<T1, T2>& pair) const {
-        auto hash1 = std::hash<T1>{}(pair.first);
-        auto hash2 = std::hash<T2>{}(pair.second);
-        return hash1 ^ hash2;
-    }
-};
-
 class Graph {
 private:
     unordered_map<int, Vertex *> vertices;    // vertex set
-    unordered_map<pair<int, int>, double, pair_hash> memo;
+
 public:
 
     /**
@@ -359,7 +287,6 @@ public:
      * @param source The id of the source vertex.
      * @param dest The id of the destination vertex.
      * @param w The weight of the edge.
-     * @param f The flow through the edge from source to dest.
      *
      * @return True if the edge is successfully added, false otherwise.
      *
@@ -367,7 +294,7 @@ public:
      * vertices in the graph, adding edges to the vertices, and setting reverse pointers, all of which
      * are O(1) in the worst case.
      */
-    bool addEdge(int source, int dest, double w, double f = 0) const;
+    bool addEdge(int source, int dest, double w) const;
 
     /**
      * @brief Adds a bidirectional edge between two vertices in the graph.
@@ -375,14 +302,12 @@ public:
      * @details This function adds a bidirectional edge between the vertices with the given source and
      * destination ids. If either of the vertices does not exist in the graph, the function returns
      * false, indicating that the edge could not be added. Otherwise, it creates two edges: one from
-     * source to dest and another from dest to source, each with the specified weight and flow.
+     * source to dest and another from dest to source, each with the specified weight.
      * Additionally, it sets the reverse pointers for the edges to maintain bidirectionality.
      *
      * @param source The id of the source vertex.
      * @param dest The id of the destination vertex.
      * @param w The weight of the edge.
-     * @param flow The flow through the edge from source to dest.
-     * @param reverseFlow The flow through the reverse edge from dest to source.
      *
      * @return True if the bidirectional edge is successfully added, false otherwise.
      *
@@ -390,7 +315,7 @@ public:
      * vertices in the graph, adding edges to the vertices, and setting reverse pointers, all of which
      * are O(1) in the worst case.
      */
-    bool addBidirectionalEdge(int source, int dest, double w, double flow = 0, double reverseFlow = 0) const;
+    bool addBidirectionalEdge(int source, int dest, double w) const;
 
     /**
      * @brief Retrieves the set of vertices in the graph.
@@ -405,28 +330,189 @@ public:
      */
     unordered_map<int, Vertex *> getVertexSet() const;
 
+    /**
+     * @brief Retrieves the weight of the edge between two vertices in the graph.
+     *
+     * @details This function retrieves the weight of the edge between the specified source and
+     * destination vertices. It first attempts to find the edge connecting the two vertices. If
+     * the edge does not exist, it calculates the weight using the Haversine formula based on the
+     * latitude and longitude coordinates of the vertices. If either of the vertices has invalid
+     * coordinates (latitude or longitude set to numeric_limits<double>::max()), indicating that
+     * it's not a valid vertex, the function throws a runtime error. If the edge exists, it returns
+     * the weight of the edge.
+     *
+     * @param source A pointer to the source vertex.
+     * @param dest A pointer to the destination vertex.
+     *
+     * @return The weight of the edge between the source and destination vertices, or the calculated
+     * distance based on their coordinates if the edge does not exist.
+     *
+     * @throws std::runtime_error If the edge is not found and either of the vertices has invalid
+     * coordinates.
+     *
+     * @complexity The time complexity of this function depends on the time complexity of finding
+     * the edge between the vertices, which is O(1) in the average case for most graph
+     * representations. If the edge does not exist, the complexity of calculating the distance
+     * between the vertices using the Haversine formula is O(1).
+    */
     double getEdgeWeight(Vertex* source, Vertex* dest);
 
+    /**
+     * @brief Performs the Traveling Salesman Problem (TSP) using backtracking algorithm.
+     *
+     * @details This function recursively explores all possible paths starting from the current
+     * vertex to find the shortest Hamiltonian cycle that visits all vertices exactly once and
+     * returns to the starting vertex. It backtracks when all vertices have been visited to check
+     * if the current path forms a cycle and updates the minimum cost if necessary.
+     *
+     * @param currentVertex A pointer to the current vertex being visited in the TSP traversal.
+     * @param destId The id of the destination vertex (starting vertex) for completing the cycle.
+     * @param count The number of vertices visited in the current path.
+     * @param cost The total cost of the current path.
+     * @param res Reference to the minimum cost found so far, updated recursively.
+     *
+     * @complexity The time complexity of this function depends on the number of permutations of
+     * vertices to explore, resulting in O(V!) in the worst case, where 'V' is the number of
+     * vertices in the graph.
+    */
     void TSPBacktracking(Vertex *currentVertex, int destId, int count, double cost, double &res);
 
+    /**
+     * @brief Solves the Traveling Salesman Problem (TSP) using the Triangular TSP heuristic.
+     *
+     * @details This function applies the Triangular TSP heuristic, which consists of constructing
+     * a minimum spanning tree (MST) using Prim's algorithm with a binary heap-based priority queue,
+     * and then performing a preorder traversal on the MST to generate a Hamiltonian cycle.
+     * It calculates the total cost of the cycle by summing the weights of the edges in the preorder
+     * traversal path.
+     *
+     * @param res Reference to the variable to store the total cost of the Hamiltonian cycle.
+     *
+     * @complexity The time complexity of this function primarily depends on the time complexity of
+     * constructing the minimum spanning tree using Prim's algorithm, which is O((|V| + |E|) log |V|)
+     * with adjacency list representation and a binary heap-based priority queue. The complexity
+     * of the preorder traversal is O(|V|), and calculating edge weights is O(1) on average.
+     * Overall, the complexity is dominated by Prim's algorithm.
+    */
     void TSPTriangular(double &res);
 
+    /**
+     * @brief Constructs a minimum spanning tree (MST) using Prim's algorithm.
+     *
+     * @details This function implements Prim's algorithm to find the minimum spanning tree (MST)
+     * of the graph starting from an arbitrary vertex. It initializes each vertex's distance to
+     * infinity and sets its path and visited status accordingly. Then, it selects a starting vertex,
+     * sets its distance to 0, and initializes a mutable priority queue to manage vertices based
+     * on their distances. The algorithm iterates by extracting the vertex with the minimum distance
+     * from the priority queue, marking it as visited, and updating the distances of its adjacent
+     * vertices if shorter paths are found. The process continues until all vertices are visited.
+     *
+     * @complexity The time complexity of Prim's algorithm depends on the implementation of the
+     * priority queue. Using a binary heap-based priority queue, the complexity is O((|V| + |E|) log |V|),
+     * where |V| is the number of vertices and |E| is the number of edges in the graph.
+    */
     void prim();
 
+    /**
+     * @brief Performs a preorder traversal starting from a given vertex.
+     *
+     * @details This function recursively performs a preorder traversal starting from the specified
+     * vertex in the graph. It adds each visited vertex to the preorder vector and continues the
+     * traversal by recursively visiting adjacent vertices that are connected to the current vertex
+     * via their paths. The traversal continues until all vertices are visited or until the preorder
+     * vector contains 'n' vertices, where 'n' is the total number of vertices in the graph.
+     *
+     * @param v A pointer to the starting vertex for the preorder traversal.
+     * @param preorder Reference to the vector to store the vertices in preorder traversal order.
+     * @param n The total number of vertices in the graph.
+     *
+     * @complexity The time complexity of this function depends on the number of vertices in the
+     * graph and the structure of the graph. In the worst case, where the graph is a complete graph,
+     * the complexity is O(|V| + |E|), where |V| is the number of vertices and |E| is the number of edges in the graph.
+    */
     void preorderTraversal(Vertex *v, std::vector<Vertex *> &preorder, int n);
 
+    /**
+     * @brief Solves the Traveling Salesman Problem (TSP) using the Nearest Neighbor heuristic.
+     *
+     * @details This function applies the Nearest Neighbor heuristic to find an approximate solution
+     * to the TSP. Starting from an arbitrary vertex, it iteratively selects the nearest unvisited
+     * neighbor until all vertices are visited, forming a Hamiltonian cycle. It calculates the total
+     * cost of the cycle by summing the weights of the edges traversed.
+     *
+     * @param res Reference to the variable to store the total cost of the Hamiltonian cycle.
+     *
+     * @throws std::runtime_error If no neighboring vertex is found during the traversal.
+     *
+     * @complexity The time complexity of this function primarily depends on the number of vertices
+     * in the graph and the implementation of finding the nearest neighbor, resulting in O(|V|^2),
+     * where |V| is the number of vertices.
+    */
     void TSPNearestNeighbor(double &res);
 
+    /**
+     * @brief Solves the Traveling Salesman Problem (TSP) using the Real-World Nearest Neighbor heuristic.
+     *
+     * @details This function applies the Real-World Nearest Neighbor heuristic to find an approximate
+     * solution to the TSP. Starting from an arbitrary vertex, it iteratively selects the nearest unvisited
+     * neighbor based on real-world distances (edge weights) until all vertices are visited, forming a
+     * Hamiltonian cycle. It calculates the total cost of the cycle by summing the weights of the edges
+     * traversed.
+     *
+     * @param res Reference to the variable to store the total cost of the Hamiltonian cycle.
+     *
+     * @throws std::runtime_error If no neighboring vertex or path is found during the traversal.
+     *
+     * @complexity The time complexity of this function primarily depends on the number of vertices
+     * in the graph and the implementation of finding the nearest neighbor, resulting in O(|V| + |E|),
+     * where |V| is the number of vertices and |E| is the number of edges in the graph.
+    */
     void TSPRealWorldNearestNeighbor(double &res);
 };
 
 // AUX functions
 
+/**
+ * @brief Converts an angle from degrees to radians.
+ *
+ * @details This function converts an angle from degrees to radians using the formula:
+ * radians = degrees * (π / 180), where π (pi) is the mathematical constant representing
+ * the ratio of a circle's circumference to its diameter.
+ *
+ * @param coord The angle in degrees to be converted to radians.
+ *
+ * @return The angle converted to radians.
+ *
+ * @complexity The time complexity of this function is O(1) since it involves a simple multiplication
+ * operation followed by a division, both of which operate on constant-sized inputs.
+*/
 inline double convert_to_radians(const double coord)
 {
     return coord * (M_PI / 180);
 }
 
+/**
+ * @brief Calculates the distance between two points on the Earth's surface using the Haversine formula.
+ *
+ * @details This function computes the distance between two geographic coordinates specified in
+ * latitude and longitude using the Haversine formula. The Earth's radius is assumed to be 6371000 meters.
+ * It first converts the latitude and longitude differences between the two points into radians,
+ * then computes the intermediate values required for the Haversine formula, and finally calculates
+ * the distance between the two points on the Earth's surface.
+ *
+ * @param lat1 The latitude of the first point in degrees.
+ * @param lon1 The longitude of the first point in degrees.
+ * @param lat2 The latitude of the second point in degrees.
+ * @param lon2 The longitude of the second point in degrees.
+ *
+ * @return The distance between the two points on the Earth's surface in meters.
+ *
+ * @note The Haversine formula is an approximation and assumes a spherical Earth, which may result
+ * in slight inaccuracies for very long distances or near the poles.
+ *
+ * @complexity The time complexity of this function is O(1) since it involves simple arithmetic
+ * operations and trigonometric functions that operate on constant-sized inputs.
+*/
 inline double haversine(const double lat1, const double lon1, const double lat2, const double lon2)
 {
     const double earths_radius = 6371000;

@@ -15,4 +15,4 @@ add_executable(FEUP_DA_Project_2 main.cpp
         States/Utils/GetEdgesFilePathState.cpp
         States/Utils/GetNodesFilePathState.cpp
         States/Utils/GetNodesFileMenuState.cpp
-        data_structures/MutablePriorityQueue.h)
+        MutablePriorityQueue.h)

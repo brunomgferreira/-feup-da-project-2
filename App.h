@@ -62,18 +62,39 @@ public:
     Data *getData();
 
     /**
-    * @brief Sets the data of the application.
+    * @brief Sets the data for the application.
     *
-    * @details This method sets the data of the application to the water network in the given path.
+    * @details This method attempts to read files and set the data for the application.
+    * If an exception occurs during the file reading process, it is caught and rethrown.
     *
-    * @param dir_path A path to the water network files.
+    * @throws std::exception if an error occurs during file reading.
     */
     void setData();
 
+    /**
+    * @brief Clears the existing data and creates a new instance of data for the application.
+    *
+    * @details This method deletes the existing data object and creates a new instance of Data class,
+    * effectively clearing the previous data and resetting the data state for the application.
+    */
     void clearData();
 
+    /**
+    * @brief Sets the file path for edges data.
+    *
+    * @details This method sets the file path for edges data in the application's data object.
+    *
+    * @param file_path The file path to set for edges data.
+    */
     void setEdgesFilePath(const filesystem::path &file_path);
 
+    /**
+    * @brief Sets the file path for edges data.
+    *
+    * @details This method sets the file path for nodes data in the application's data object.
+    *
+    * @param file_path The file path to set for nodes data.
+    */
     void setNodesFilePath(const filesystem::path &file_path);
 
     /**
