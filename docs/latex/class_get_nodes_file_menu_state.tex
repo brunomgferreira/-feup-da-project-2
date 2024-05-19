@@ -1,0 +1,92 @@
+\doxysection{Get\+Nodes\+File\+Menu\+State Class Reference}
+\hypertarget{class_get_nodes_file_menu_state}{}\label{class_get_nodes_file_menu_state}\index{GetNodesFileMenuState@{GetNodesFileMenuState}}
+
+
+Class representing the get nodes file menu state.  
+
+
+
+
+{\ttfamily \#include $<$Get\+Nodes\+File\+Menu\+State.\+h$>$}
+
+Inheritance diagram for Get\+Nodes\+File\+Menu\+State\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_get_nodes_file_menu_state}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_get_nodes_file_menu_state_a2f450751c77f2cf2c21bc77b0dfe92c8}{Get\+Nodes\+File\+Menu\+State}} ()
+\begin{DoxyCompactList}\small\item\em Default constructor for \doxylink{class_get_nodes_file_menu_state}{Get\+Nodes\+File\+Menu\+State}. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_get_nodes_file_menu_state_a62103c5f75444d29b0f47cf64f00b52a}{display}} () const override
+\begin{DoxyCompactList}\small\item\em Displays the nodes file menu options. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_get_nodes_file_menu_state_aa38d229d07f362bed750390038b625c8}{handle\+Input}} (\mbox{\hyperlink{class_app}{App}} \texorpdfstring{$\ast$}{*}app) override
+\begin{DoxyCompactList}\small\item\em Handles user input for the nodes file menu. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Additional Inherited Members}
+\doxysubsection*{Static Public Member Functions inherited from \mbox{\hyperlink{class_state}{State}}}
+\begin{DoxyCompactItemize}
+\item 
+static void \mbox{\hyperlink{class_state_abb96eee18b14b41589b7163b83902463}{Press\+Enter\+To\+Continue}} (int num\+Presses=2)
+\begin{DoxyCompactList}\small\item\em Waits for user to press ENTER to continue execution. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Class representing the get nodes file menu state. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_get_nodes_file_menu_state_a2f450751c77f2cf2c21bc77b0dfe92c8}\label{class_get_nodes_file_menu_state_a2f450751c77f2cf2c21bc77b0dfe92c8} 
+\index{GetNodesFileMenuState@{GetNodesFileMenuState}!GetNodesFileMenuState@{GetNodesFileMenuState}}
+\index{GetNodesFileMenuState@{GetNodesFileMenuState}!GetNodesFileMenuState@{GetNodesFileMenuState}}
+\doxysubsubsection{\texorpdfstring{GetNodesFileMenuState()}{GetNodesFileMenuState()}}
+{\footnotesize\ttfamily Get\+Nodes\+File\+Menu\+State\+::\+Get\+Nodes\+File\+Menu\+State (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [default]}}
+
+
+
+Default constructor for \doxylink{class_get_nodes_file_menu_state}{Get\+Nodes\+File\+Menu\+State}. 
+
+This constructor initializes an instance of the \doxylink{class_get_nodes_file_menu_state}{Get\+Nodes\+File\+Menu\+State} class. It doesn\textquotesingle{}t require any parameters, as it represents the get nodes file menu state of the application, allowing users to choose if they want to to different functionalities and sections of the program. 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_get_nodes_file_menu_state_a62103c5f75444d29b0f47cf64f00b52a}\label{class_get_nodes_file_menu_state_a62103c5f75444d29b0f47cf64f00b52a} 
+\index{GetNodesFileMenuState@{GetNodesFileMenuState}!display@{display}}
+\index{display@{display}!GetNodesFileMenuState@{GetNodesFileMenuState}}
+\doxysubsubsection{\texorpdfstring{display()}{display()}}
+{\footnotesize\ttfamily void Get\+Nodes\+File\+Menu\+State\+::display (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Displays the nodes file menu options. 
+
+This method prints the nodes file menu options to the console, allowing users to choose from different functionalities. Users input a single character corresponding to their desired option (1-\/7 for sections, \textquotesingle{}q\textquotesingle{} to exit). The method provides a visual representation of the nodes file menu and prompts the user to enter their choice. 
+
+Implements \mbox{\hyperlink{class_state_adf38e0648b7705d04c39f40b763632bb}{State}}.
+
+\Hypertarget{class_get_nodes_file_menu_state_aa38d229d07f362bed750390038b625c8}\label{class_get_nodes_file_menu_state_aa38d229d07f362bed750390038b625c8} 
+\index{GetNodesFileMenuState@{GetNodesFileMenuState}!handleInput@{handleInput}}
+\index{handleInput@{handleInput}!GetNodesFileMenuState@{GetNodesFileMenuState}}
+\doxysubsubsection{\texorpdfstring{handleInput()}{handleInput()}}
+{\footnotesize\ttfamily void Get\+Nodes\+File\+Menu\+State\+::handle\+Input (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_app}{App}} \texorpdfstring{$\ast$}{*}}]{app }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Handles user input for the nodes file menu. 
+
+This method prompts the user to input a single character representing their choice in the nodes file menu. It uses a switch statement to determine the action corresponding to the user\textquotesingle{}s choice. If the input is valid, the method transitions to the appropriate state based on the user\textquotesingle{}s choice. If the input is invalid, the method notifies the user and prompts them to try again. The \textquotesingle{}q\textquotesingle{} option exits the program.
+
+
+\begin{DoxyParams}{Parameters}
+{\em app} & A pointer to the application instance. \\
+\hline
+\end{DoxyParams}
+
+
+Implements \mbox{\hyperlink{class_state_a2b8ab1025a5ab2252a3bfdf0597a831f}{State}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+States/\+Utils/Get\+Nodes\+File\+Menu\+State.\+h\item 
+States/\+Utils/Get\+Nodes\+File\+Menu\+State.\+cpp\end{DoxyCompactItemize}

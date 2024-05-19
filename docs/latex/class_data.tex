@@ -1,0 +1,251 @@
+\doxysection{Data Class Reference}
+\hypertarget{class_data}{}\label{class_data}\index{Data@{Data}}
+
+
+Class that saves all the program data.  
+
+
+
+
+{\ttfamily \#include $<$Data.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_data_af11f741cb7f587e2e495452a8905a22a}{Data}} ()
+\begin{DoxyCompactList}\small\item\em Default constructor for the \doxylink{class_data}{Data} class. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_data_a0fcd95729b8769938727ab3bbcd6844b}{is\+Graph\+Loaded}} ()
+\begin{DoxyCompactList}\small\item\em Checks if the graph data is loaded. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_data_a045278bcc318a048fbacd1d15eb2c3ea}{set\+Edges\+File\+Path}} (const filesystem\+::path \&file)
+\begin{DoxyCompactList}\small\item\em Sets the file path for edges data. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_data_ac65d94034d337c6813b8ff2be533d2c0}{set\+Nodes\+File\+Path}} (const filesystem\+::path \&file)
+\begin{DoxyCompactList}\small\item\em Sets the file path for nodes data. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_data_a0cd9b8e51f55ec91286b190b97b99155}{read\+Files}} ()
+\begin{DoxyCompactList}\small\item\em Reads files containing nodes and edges data. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_data_a184f4dc9bfcb1653a7aca2552de61937}{read\+Edges\+File}} (ifstream \&file)
+\begin{DoxyCompactList}\small\item\em Reads edges data from a file. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_data_a01afd34e6985adb27d82059161d93d9a}{read\+Nodes\+File}} (ifstream \&file)
+\begin{DoxyCompactList}\small\item\em Reads nodes data from a file. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_data_aed8bbd42115881246f10da771e637334}{vertex\+Exists}} (int id)
+\begin{DoxyCompactList}\small\item\em Checks the existence of a vertex. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_data_aa30d42350ed47160d4a10e550548af51}{TSPBacktracking}} ()
+\begin{DoxyCompactList}\small\item\em Solves the Traveling Salesman Problem (TSP) using backtracking. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_data_a81751080cd4fe7e50ef33f08b0541007}{TSPTriangular}} ()
+\begin{DoxyCompactList}\small\item\em Solves the Traveling Salesman Problem (TSP) using a triangular approximation. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_data_a763b4d1f2347f2ebaa07aa05ba783098}{TSPNearest\+Neighbor}} ()
+\begin{DoxyCompactList}\small\item\em Solves the Traveling Salesman Problem (TSP) using the nearest neighbor heuristic. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_data_a7ace341657adb554538a89682945a62a}{TSPReal\+World\+Nearest\+Neighbor}} (int starting\+Vertex\+Id)
+\begin{DoxyCompactList}\small\item\em Solves the Traveling Salesman Problem (TSP) using a real-\/world nearest neighbor heuristic. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_data_a25df866c6795128b65d01daee1c5d25f}\label{class_data_a25df866c6795128b65d01daee1c5d25f} 
+filesystem\+::path {\bfseries edges\+File\+Path}
+\item 
+\Hypertarget{class_data_afce772c58a9f4d16dd2112630e622677}\label{class_data_afce772c58a9f4d16dd2112630e622677} 
+filesystem\+::path {\bfseries nodes\+File\+Path}
+\item 
+\Hypertarget{class_data_a7ff2cbd4ce464653b30ac17a1bc7f2e6}\label{class_data_a7ff2cbd4ce464653b30ac17a1bc7f2e6} 
+\mbox{\hyperlink{class_graph}{Graph}} {\bfseries g}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Class that saves all the program data. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_data_af11f741cb7f587e2e495452a8905a22a}\label{class_data_af11f741cb7f587e2e495452a8905a22a} 
+\index{Data@{Data}!Data@{Data}}
+\index{Data@{Data}!Data@{Data}}
+\doxysubsubsection{\texorpdfstring{Data()}{Data()}}
+{\footnotesize\ttfamily Data\+::\+Data (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [default]}}
+
+
+
+Default constructor for the \doxylink{class_data}{Data} class. 
+
+This default constructor creates a new instance of the \doxylink{class_data}{Data} class without specifying any initial values. It initializes the \doxylink{class_data}{Data} object with default values. 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_data_a0fcd95729b8769938727ab3bbcd6844b}\label{class_data_a0fcd95729b8769938727ab3bbcd6844b} 
+\index{Data@{Data}!isGraphLoaded@{isGraphLoaded}}
+\index{isGraphLoaded@{isGraphLoaded}!Data@{Data}}
+\doxysubsubsection{\texorpdfstring{isGraphLoaded()}{isGraphLoaded()}}
+{\footnotesize\ttfamily bool Data\+::is\+Graph\+Loaded (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Checks if the graph data is loaded. 
+
+This method checks if the graph data is loaded by verifying if the vertex set of the graph is empty or not.
+
+\begin{DoxyReturn}{Returns}
+true if the graph data is loaded, false otherwise.
+\end{DoxyReturn}
+@complexity O(1). \Hypertarget{class_data_a184f4dc9bfcb1653a7aca2552de61937}\label{class_data_a184f4dc9bfcb1653a7aca2552de61937} 
+\index{Data@{Data}!readEdgesFile@{readEdgesFile}}
+\index{readEdgesFile@{readEdgesFile}!Data@{Data}}
+\doxysubsubsection{\texorpdfstring{readEdgesFile()}{readEdgesFile()}}
+{\footnotesize\ttfamily void Data\+::read\+Edges\+File (\begin{DoxyParamCaption}\item[{ifstream \&}]{file }\end{DoxyParamCaption})}
+
+
+
+Reads edges data from a file. 
+
+This method reads edges data from a file line by line, parses each line to extract origin, destination, and distance information. It then adds vertices and bidirectional edges to the graph accordingly. Carriage return characters are removed if present in the input file.
+
+
+\begin{DoxyParams}{Parameters}
+{\em file} & An input file stream containing edges data.\\
+\hline
+\end{DoxyParams}
+@complexity The time complexity of this method is O(n), where n is the number of lines in the input file. Within each iteration of the while loop, the operations of reading lines, parsing data, and adding vertices/edges to the graph are all done in constant time or linear time with respect to the size of the input data. Therefore, the overall time complexity is linear with respect to the number of lines in the input file. \Hypertarget{class_data_a0cd9b8e51f55ec91286b190b97b99155}\label{class_data_a0cd9b8e51f55ec91286b190b97b99155} 
+\index{Data@{Data}!readFiles@{readFiles}}
+\index{readFiles@{readFiles}!Data@{Data}}
+\doxysubsubsection{\texorpdfstring{readFiles()}{readFiles()}}
+{\footnotesize\ttfamily void Data\+::read\+Files (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Reads files containing nodes and edges data. 
+
+This method attempts to read files containing nodes and edges data. If the edges file path is empty or if there are issues opening the files, appropriate exceptions are thrown.
+
+
+\begin{DoxyExceptions}{Exceptions}
+{\em std\+::runtime\+\_\+error} & if there are issues with file paths or opening files. \\
+\hline
+\end{DoxyExceptions}
+\Hypertarget{class_data_a01afd34e6985adb27d82059161d93d9a}\label{class_data_a01afd34e6985adb27d82059161d93d9a} 
+\index{Data@{Data}!readNodesFile@{readNodesFile}}
+\index{readNodesFile@{readNodesFile}!Data@{Data}}
+\doxysubsubsection{\texorpdfstring{readNodesFile()}{readNodesFile()}}
+{\footnotesize\ttfamily void Data\+::read\+Nodes\+File (\begin{DoxyParamCaption}\item[{ifstream \&}]{file }\end{DoxyParamCaption})}
+
+
+
+Reads nodes data from a file. 
+
+This method reads nodes data from a file line by line, parses each line to extract node ID, longitude, and latitude information. It then adds vertices to the graph with the corresponding information. Carriage return characters are removed if present in the input file.
+
+
+\begin{DoxyParams}{Parameters}
+{\em file} & An input file stream containing nodes data.\\
+\hline
+\end{DoxyParams}
+@complexity The time complexity of this method is O(n), where n is the number of lines in the input file. Within each iteration of the while loop, the operations of reading lines, parsing data, and adding vertices to the graph are all done in constant time or linear time with respect to the size of the input data. Therefore, the overall time complexity is linear with respect to the number of lines in the input file. \Hypertarget{class_data_a045278bcc318a048fbacd1d15eb2c3ea}\label{class_data_a045278bcc318a048fbacd1d15eb2c3ea} 
+\index{Data@{Data}!setEdgesFilePath@{setEdgesFilePath}}
+\index{setEdgesFilePath@{setEdgesFilePath}!Data@{Data}}
+\doxysubsubsection{\texorpdfstring{setEdgesFilePath()}{setEdgesFilePath()}}
+{\footnotesize\ttfamily void Data\+::set\+Edges\+File\+Path (\begin{DoxyParamCaption}\item[{const filesystem\+::path \&}]{file }\end{DoxyParamCaption})}
+
+
+
+Sets the file path for edges data. 
+
+This method sets the file path for edges data in the \doxylink{class_data}{Data} object.
+
+
+\begin{DoxyParams}{Parameters}
+{\em file\+\_\+path} & The file path to set for edges data.\\
+\hline
+\end{DoxyParams}
+@complexity O(1). \Hypertarget{class_data_ac65d94034d337c6813b8ff2be533d2c0}\label{class_data_ac65d94034d337c6813b8ff2be533d2c0} 
+\index{Data@{Data}!setNodesFilePath@{setNodesFilePath}}
+\index{setNodesFilePath@{setNodesFilePath}!Data@{Data}}
+\doxysubsubsection{\texorpdfstring{setNodesFilePath()}{setNodesFilePath()}}
+{\footnotesize\ttfamily void Data\+::set\+Nodes\+File\+Path (\begin{DoxyParamCaption}\item[{const filesystem\+::path \&}]{file }\end{DoxyParamCaption})}
+
+
+
+Sets the file path for nodes data. 
+
+This method sets the file path for nodes data in the \doxylink{class_data}{Data} object.
+
+
+\begin{DoxyParams}{Parameters}
+{\em file\+\_\+path} & The file path to set for nodes data.\\
+\hline
+\end{DoxyParams}
+@complexity O(1). \Hypertarget{class_data_aa30d42350ed47160d4a10e550548af51}\label{class_data_aa30d42350ed47160d4a10e550548af51} 
+\index{Data@{Data}!TSPBacktracking@{TSPBacktracking}}
+\index{TSPBacktracking@{TSPBacktracking}!Data@{Data}}
+\doxysubsubsection{\texorpdfstring{TSPBacktracking()}{TSPBacktracking()}}
+{\footnotesize\ttfamily void Data\+::\+TSPBacktracking (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Solves the Traveling Salesman Problem (TSP) using backtracking. 
+
+This method initializes the TSP solution process by setting all vertices as unvisited, then starts the backtracking algorithm from the starting vertex (vertex with ID 0). It explores all possible paths using backtracking and calculates the minimum cost of the TSP tour. The final result is printed to the standard output.
+
+@complexity The time complexity of this function depends on the number of permutations of vertices to explore, resulting in O(V!) in the worst case, where \textquotesingle{}V\textquotesingle{} is the number of vertices in the graph. \Hypertarget{class_data_a763b4d1f2347f2ebaa07aa05ba783098}\label{class_data_a763b4d1f2347f2ebaa07aa05ba783098} 
+\index{Data@{Data}!TSPNearestNeighbor@{TSPNearestNeighbor}}
+\index{TSPNearestNeighbor@{TSPNearestNeighbor}!Data@{Data}}
+\doxysubsubsection{\texorpdfstring{TSPNearestNeighbor()}{TSPNearestNeighbor()}}
+{\footnotesize\ttfamily void Data\+::\+TSPNearest\+Neighbor (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Solves the Traveling Salesman Problem (TSP) using the nearest neighbor heuristic. 
+
+This method approximates the TSP solution by starting from the vertex with id 0 and iteratively selecting the nearest unvisited neighbor until all vertices are visited. The length of the resulting tour is calculated and printed as the TSP nearest neighbor approximation result.
+
+@complexity The time complexity of this function primarily depends on the number of vertices in the graph and the implementation of finding the nearest neighbor, resulting in O(\texorpdfstring{$\vert$}{|}\+V\texorpdfstring{$\vert$}{|}\texorpdfstring{$^\wedge$}{\string^}2), where \texorpdfstring{$\vert$}{|}\+V\texorpdfstring{$\vert$}{|} is the number of vertices. \Hypertarget{class_data_a7ace341657adb554538a89682945a62a}\label{class_data_a7ace341657adb554538a89682945a62a} 
+\index{Data@{Data}!TSPRealWorldNearestNeighbor@{TSPRealWorldNearestNeighbor}}
+\index{TSPRealWorldNearestNeighbor@{TSPRealWorldNearestNeighbor}!Data@{Data}}
+\doxysubsubsection{\texorpdfstring{TSPRealWorldNearestNeighbor()}{TSPRealWorldNearestNeighbor()}}
+{\footnotesize\ttfamily void Data\+::\+TSPReal\+World\+Nearest\+Neighbor (\begin{DoxyParamCaption}\item[{int}]{starting\+Vertex\+Id }\end{DoxyParamCaption})}
+
+
+
+Solves the Traveling Salesman Problem (TSP) using a real-\/world nearest neighbor heuristic. 
+
+This method approximates the TSP solution by starting from a user-\/specified starting vertex and iteratively selecting the nearest unvisited neighbor until all vertices are visited. Additionally, it considers constraints specific to real-\/world scenarios (the graph is not fully connected). If no solution is found within the constraints, an exception is thrown. The length of the resulting tour is calculated and printed as the TSP real-\/world nearest neighbor approximation result.
+
+
+\begin{DoxyParams}{Parameters}
+{\em starting\+\_\+vertex} & The ID of the starting vertex for the TSP tour.\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em std\+::runtime\+\_\+error} & if no feasible solution is found within the constraints.\\
+\hline
+\end{DoxyExceptions}
+@complexity The time complexity of this function primarily depends on the number of vertices in the graph and the implementation of finding the nearest neighbor, resulting in O(\texorpdfstring{$\vert$}{|}\+V\texorpdfstring{$\vert$}{|} + \texorpdfstring{$\vert$}{|}\+E\texorpdfstring{$\vert$}{|}), where \texorpdfstring{$\vert$}{|}\+V\texorpdfstring{$\vert$}{|} is the number of vertices and \texorpdfstring{$\vert$}{|}\+E\texorpdfstring{$\vert$}{|} is the number of edges in the graph. \Hypertarget{class_data_a81751080cd4fe7e50ef33f08b0541007}\label{class_data_a81751080cd4fe7e50ef33f08b0541007} 
+\index{Data@{Data}!TSPTriangular@{TSPTriangular}}
+\index{TSPTriangular@{TSPTriangular}!Data@{Data}}
+\doxysubsubsection{\texorpdfstring{TSPTriangular()}{TSPTriangular()}}
+{\footnotesize\ttfamily void Data\+::\+TSPTriangular (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Solves the Traveling Salesman Problem (TSP) using a triangular approximation. 
+
+This method approximates the TSP solution by finding a minimum spanning tree (MST) of the graph and then traversing it in a specific manner to form a tour. The length of this tour is calculated and printed as the TSP triangular approximation result. \Hypertarget{class_data_aed8bbd42115881246f10da771e637334}\label{class_data_aed8bbd42115881246f10da771e637334} 
+\index{Data@{Data}!vertexExists@{vertexExists}}
+\index{vertexExists@{vertexExists}!Data@{Data}}
+\doxysubsubsection{\texorpdfstring{vertexExists()}{vertexExists()}}
+{\footnotesize\ttfamily bool Data\+::vertex\+Exists (\begin{DoxyParamCaption}\item[{int}]{id }\end{DoxyParamCaption})}
+
+
+
+Checks the existence of a vertex. 
+
+This method checks whether a vertex with the given id exists.
+
+
+\begin{DoxyParams}{Parameters}
+{\em id} & The id of the vertex to be checked for existence.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if the vertex exists, false otherwise.
+\end{DoxyReturn}
+@complexity O(1), as the function performs a constant-\/time map lookup. 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Data.\+h\item 
+Data.\+cpp\end{DoxyCompactItemize}

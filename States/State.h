@@ -8,7 +8,7 @@
 #include <functional>
 
 /**
-* @brief Abstract base class representing an app state within the water supply analysis system.
+* @brief Abstract base class representing an app state within the program.
 */
 
 class State {

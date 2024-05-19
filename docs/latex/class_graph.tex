@@ -1,0 +1,333 @@
+\doxysection{Graph Class Reference}
+\hypertarget{class_graph}{}\label{class_graph}\index{Graph@{Graph}}
+
+
+Class representing a graph.  
+
+
+
+
+{\ttfamily \#include $<$Graph.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_vertex}{Vertex}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_graph_a05c45e4efdf867792139ddf3628c0b60}{find\+Vertex}} (int id) const
+\begin{DoxyCompactList}\small\item\em Finds a vertex in the graph based on its id. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_graph_a2d2f69946b29fee07c53cb6552c7690e}{add\+Vertex}} (int id)
+\begin{DoxyCompactList}\small\item\em Adds a vertex to the graph. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_graph_a480675e98227b5cea4d990d301d43eee}{add\+Vertex}} (int id, double longitude, double latitude)
+\begin{DoxyCompactList}\small\item\em Adds a vertex to the graph. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_graph_aec796be6bcc74ce93b43df4c93525776}{add\+Edge}} (int source, int dest, double w) const
+\begin{DoxyCompactList}\small\item\em Adds an edge between two vertices in the graph. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_graph_abf29d1d4926915e6b4bac336b74a4293}{add\+Bidirectional\+Edge}} (int source, int dest, double w) const
+\begin{DoxyCompactList}\small\item\em Adds a bidirectional edge between two vertices in the graph. \end{DoxyCompactList}\item 
+unordered\+\_\+map$<$ int, \mbox{\hyperlink{class_vertex}{Vertex}} \texorpdfstring{$\ast$}{*} $>$ \mbox{\hyperlink{class_graph_a1e805d1e47b847b9665cf978aa31ab4a}{get\+Vertex\+Set}} () const
+\begin{DoxyCompactList}\small\item\em Retrieves the set of vertices in the graph. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{class_graph_ad8863cfdad2955bd23306b3e56b0aa51}{get\+Edge\+Weight}} (\mbox{\hyperlink{class_vertex}{Vertex}} \texorpdfstring{$\ast$}{*}source, \mbox{\hyperlink{class_vertex}{Vertex}} \texorpdfstring{$\ast$}{*}dest)
+\begin{DoxyCompactList}\small\item\em Retrieves the weight of the edge between two vertices in the graph. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_graph_af36c0a3ce405505de739224ffe2557c0}{TSPBacktracking}} (\mbox{\hyperlink{class_vertex}{Vertex}} \texorpdfstring{$\ast$}{*}current\+Vertex, int dest\+Id, int count, double cost, double \&res)
+\begin{DoxyCompactList}\small\item\em Performs the Traveling Salesman Problem (TSP) using backtracking algorithm. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_graph_a049913a4f0aa5b5371de6809ab585bc8}{TSPTriangular}} (double \&res)
+\begin{DoxyCompactList}\small\item\em Solves the Traveling Salesman Problem (TSP) using the Triangular TSP heuristic. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_graph_acb18a1f9d2ad51214d4211d60edf6860}{prim}} ()
+\begin{DoxyCompactList}\small\item\em Constructs a minimum spanning tree (MST) using Prim\textquotesingle{}s algorithm. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_graph_ac4b61821079f925dcbf4c29d61a98a1c}{preorder\+Traversal}} (\mbox{\hyperlink{class_vertex}{Vertex}} \texorpdfstring{$\ast$}{*}v, std\+::vector$<$ \mbox{\hyperlink{class_vertex}{Vertex}} \texorpdfstring{$\ast$}{*} $>$ \&preorder, int n)
+\begin{DoxyCompactList}\small\item\em Performs a preorder traversal starting from a given vertex. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_graph_a81a736d93710e0c0a610833bece321c2}{TSPNearest\+Neighbor}} (double \&res)
+\begin{DoxyCompactList}\small\item\em Solves the Traveling Salesman Problem (TSP) using the Nearest Neighbor heuristic. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_graph_af0dcc15c2ebb0e1e4e356da8f1366369}{TSPReal\+World\+Nearest\+Neighbor}} (double \&res, int starting\+Vertex\+Id)
+\begin{DoxyCompactList}\small\item\em Solves the Traveling Salesman Problem (TSP) using the Real-\/\+World Nearest Neighbor heuristic. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_graph_ab7e67844f410b03007947dd0a47d6583}\label{class_graph_ab7e67844f410b03007947dd0a47d6583} 
+unordered\+\_\+map$<$ int, \mbox{\hyperlink{class_vertex}{Vertex}} \texorpdfstring{$\ast$}{*} $>$ {\bfseries vertices}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Class representing a graph. 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_graph_abf29d1d4926915e6b4bac336b74a4293}\label{class_graph_abf29d1d4926915e6b4bac336b74a4293} 
+\index{Graph@{Graph}!addBidirectionalEdge@{addBidirectionalEdge}}
+\index{addBidirectionalEdge@{addBidirectionalEdge}!Graph@{Graph}}
+\doxysubsubsection{\texorpdfstring{addBidirectionalEdge()}{addBidirectionalEdge()}}
+{\footnotesize\ttfamily bool Graph\+::add\+Bidirectional\+Edge (\begin{DoxyParamCaption}\item[{int}]{source,  }\item[{int}]{dest,  }\item[{double}]{w }\end{DoxyParamCaption}) const}
+
+
+
+Adds a bidirectional edge between two vertices in the graph. 
+
+This function adds a bidirectional edge between the vertices with the given source and destination ids. If either of the vertices does not exist in the graph, the function returns false, indicating that the edge could not be added. Otherwise, it creates two edges\+: one from source to dest and another from dest to source, each with the specified weight. Additionally, it sets the reverse pointers for the edges to maintain bidirectionality.
+
+
+\begin{DoxyParams}{Parameters}
+{\em source} & The id of the source vertex. \\
+\hline
+{\em dest} & The id of the destination vertex. \\
+\hline
+{\em w} & The weight of the edge.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if the bidirectional edge is successfully added, false otherwise.
+\end{DoxyReturn}
+@complexity The time complexity of this function depends on the time complexity of finding vertices in the graph, adding edges to the vertices, and setting reverse pointers, all of which are O(1) in the worst case. \Hypertarget{class_graph_aec796be6bcc74ce93b43df4c93525776}\label{class_graph_aec796be6bcc74ce93b43df4c93525776} 
+\index{Graph@{Graph}!addEdge@{addEdge}}
+\index{addEdge@{addEdge}!Graph@{Graph}}
+\doxysubsubsection{\texorpdfstring{addEdge()}{addEdge()}}
+{\footnotesize\ttfamily bool Graph\+::add\+Edge (\begin{DoxyParamCaption}\item[{int}]{source,  }\item[{int}]{dest,  }\item[{double}]{w }\end{DoxyParamCaption}) const}
+
+
+
+Adds an edge between two vertices in the graph. 
+
+This function adds an edge from the vertex with the source id to the vertex with the destination id. If either of the vertices does not exist in the graph, the function returns false, indicating that the edge could not be added. Otherwise, it adds the edge to the origin vertex and checks if there is a corresponding reverse edge in the destination vertex. If a reverse edge exists and has the same weight as the newly added edge, it sets the reverse pointers for both edges to maintain bidirectionality.
+
+
+\begin{DoxyParams}{Parameters}
+{\em source} & The id of the source vertex. \\
+\hline
+{\em dest} & The id of the destination vertex. \\
+\hline
+{\em w} & The weight of the edge.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if the edge is successfully added, false otherwise.
+\end{DoxyReturn}
+@complexity The time complexity of this function depends on the time complexity of finding vertices in the graph, adding edges to the vertices, and setting reverse pointers, all of which are O(1) in the worst case. \Hypertarget{class_graph_a2d2f69946b29fee07c53cb6552c7690e}\label{class_graph_a2d2f69946b29fee07c53cb6552c7690e} 
+\index{Graph@{Graph}!addVertex@{addVertex}}
+\index{addVertex@{addVertex}!Graph@{Graph}}
+\doxysubsubsection{\texorpdfstring{addVertex()}{addVertex()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily bool Graph\+::add\+Vertex (\begin{DoxyParamCaption}\item[{int}]{id }\end{DoxyParamCaption})}
+
+
+
+Adds a vertex to the graph. 
+
+This function adds a vertex with the given id and type to the graph. If a vertex with the same id already exists in the graph, the function returns false, indicating that the vertex could not be added. Otherwise, it creates a new vertex, inserts it into the graph\textquotesingle{}s vertex set, and returns true to indicate a successful addition.
+
+
+\begin{DoxyParams}{Parameters}
+{\em id} & The id of the vertex to be found.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if the vertex is successfully added, false otherwise.
+\end{DoxyReturn}
+@complexity The time complexity of this function depends on the time complexity of finding a vertex in the graph, which is O(1) in the worst case, and inserting a new vertex into the vertex set, which is also O(1) in the worst case. \Hypertarget{class_graph_a480675e98227b5cea4d990d301d43eee}\label{class_graph_a480675e98227b5cea4d990d301d43eee} 
+\index{Graph@{Graph}!addVertex@{addVertex}}
+\index{addVertex@{addVertex}!Graph@{Graph}}
+\doxysubsubsection{\texorpdfstring{addVertex()}{addVertex()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily bool Graph\+::add\+Vertex (\begin{DoxyParamCaption}\item[{int}]{id,  }\item[{double}]{longitude,  }\item[{double}]{latitude }\end{DoxyParamCaption})}
+
+
+
+Adds a vertex to the graph. 
+
+This function adds a vertex with the given id and type to the graph. If a vertex with the same id already exists in the graph, the function returns false, indicating that the vertex could not be added. Otherwise, it creates a new vertex, inserts it into the graph\textquotesingle{}s vertex set, and returns true to indicate a successful addition.
+
+
+\begin{DoxyParams}{Parameters}
+{\em id} & The id of the vertex to be found. \\
+\hline
+{\em longitude} & The longitude of the vertex to be found. \\
+\hline
+{\em latitude} & The latitude of the vertex to be found.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if the vertex is successfully added, false otherwise.
+\end{DoxyReturn}
+@complexity The time complexity of this function depends on the time complexity of finding a vertex in the graph, which is O(1) in the worst case, and inserting a new vertex into the vertex set, which is also O(1) in the worst case. \Hypertarget{class_graph_a05c45e4efdf867792139ddf3628c0b60}\label{class_graph_a05c45e4efdf867792139ddf3628c0b60} 
+\index{Graph@{Graph}!findVertex@{findVertex}}
+\index{findVertex@{findVertex}!Graph@{Graph}}
+\doxysubsubsection{\texorpdfstring{findVertex()}{findVertex()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_vertex}{Vertex}} \texorpdfstring{$\ast$}{*} Graph\+::find\+Vertex (\begin{DoxyParamCaption}\item[{int}]{id }\end{DoxyParamCaption}) const}
+
+
+
+Finds a vertex in the graph based on its id. 
+
+This function searches for a vertex with the given id in the graph\textquotesingle{}s vertex set. If the vertex is found, a pointer to it is returned; otherwise, nullptr is returned to indicate that the vertex could not be found.
+
+
+\begin{DoxyParams}{Parameters}
+{\em id} & The id of the vertex to be found.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A pointer to the vertex if found, nullptr otherwise.
+\end{DoxyReturn}
+@complexity The time complexity of this function depends on the time complexity of finding an element in an unordered\+\_\+map, which is O(1) in the worst case. \Hypertarget{class_graph_ad8863cfdad2955bd23306b3e56b0aa51}\label{class_graph_ad8863cfdad2955bd23306b3e56b0aa51} 
+\index{Graph@{Graph}!getEdgeWeight@{getEdgeWeight}}
+\index{getEdgeWeight@{getEdgeWeight}!Graph@{Graph}}
+\doxysubsubsection{\texorpdfstring{getEdgeWeight()}{getEdgeWeight()}}
+{\footnotesize\ttfamily double Graph\+::get\+Edge\+Weight (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_vertex}{Vertex}} \texorpdfstring{$\ast$}{*}}]{source,  }\item[{\mbox{\hyperlink{class_vertex}{Vertex}} \texorpdfstring{$\ast$}{*}}]{dest }\end{DoxyParamCaption})}
+
+
+
+Retrieves the weight of the edge between two vertices in the graph. 
+
+This function retrieves the weight of the edge between the specified source and destination vertices. It first attempts to find the edge connecting the two vertices. If the edge does not exist, it calculates the weight using the Haversine formula based on the latitude and longitude coordinates of the vertices. If either of the vertices has invalid coordinates (latitude or longitude set to numeric\+\_\+limits$<$double$>$\+::max()), indicating that it\textquotesingle{}s not a valid vertex, the function throws a runtime error. If the edge exists, it returns the weight of the edge.
+
+
+\begin{DoxyParams}{Parameters}
+{\em source} & A pointer to the source vertex. \\
+\hline
+{\em dest} & A pointer to the destination vertex.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The weight of the edge between the source and destination vertices, or the calculated distance based on their coordinates if the edge does not exist.
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em std\+::runtime\+\_\+error} & If the edge is not found and either of the vertices has invalid coordinates.\\
+\hline
+\end{DoxyExceptions}
+@complexity The time complexity of this function depends on the time complexity of finding the edge between the vertices, which is O(1) in the average case for most graph representations. If the edge does not exist, the complexity of calculating the distance between the vertices using the Haversine formula is O(1). \Hypertarget{class_graph_a1e805d1e47b847b9665cf978aa31ab4a}\label{class_graph_a1e805d1e47b847b9665cf978aa31ab4a} 
+\index{Graph@{Graph}!getVertexSet@{getVertexSet}}
+\index{getVertexSet@{getVertexSet}!Graph@{Graph}}
+\doxysubsubsection{\texorpdfstring{getVertexSet()}{getVertexSet()}}
+{\footnotesize\ttfamily unordered\+\_\+map$<$ int, \mbox{\hyperlink{class_vertex}{Vertex}} \texorpdfstring{$\ast$}{*} $>$ Graph\+::get\+Vertex\+Set (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Retrieves the set of vertices in the graph. 
+
+\begin{DoxyReturn}{Returns}
+An unordered map containing the vertices of the graph, where the keys are vertex ids and the values are pointers to the corresponding vertices.
+\end{DoxyReturn}
+This function returns a copy of the unordered map containing all vertices in the graph. It does not modify the original graph.
+
+@complexity O(1) \Hypertarget{class_graph_ac4b61821079f925dcbf4c29d61a98a1c}\label{class_graph_ac4b61821079f925dcbf4c29d61a98a1c} 
+\index{Graph@{Graph}!preorderTraversal@{preorderTraversal}}
+\index{preorderTraversal@{preorderTraversal}!Graph@{Graph}}
+\doxysubsubsection{\texorpdfstring{preorderTraversal()}{preorderTraversal()}}
+{\footnotesize\ttfamily void Graph\+::preorder\+Traversal (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_vertex}{Vertex}} \texorpdfstring{$\ast$}{*}}]{v,  }\item[{std\+::vector$<$ \mbox{\hyperlink{class_vertex}{Vertex}} \texorpdfstring{$\ast$}{*} $>$ \&}]{preorder,  }\item[{int}]{n }\end{DoxyParamCaption})}
+
+
+
+Performs a preorder traversal starting from a given vertex. 
+
+This function recursively performs a preorder traversal starting from the specified vertex in the graph. It adds each visited vertex to the preorder vector and continues the traversal by recursively visiting adjacent vertices that are connected to the current vertex via their paths. The traversal continues until all vertices are visited or until the preorder vector contains \textquotesingle{}n\textquotesingle{} vertices, where \textquotesingle{}n\textquotesingle{} is the total number of vertices in the graph.
+
+
+\begin{DoxyParams}{Parameters}
+{\em v} & A pointer to the starting vertex for the preorder traversal. \\
+\hline
+{\em preorder} & Reference to the vector to store the vertices in preorder traversal order. \\
+\hline
+{\em n} & The total number of vertices in the graph.\\
+\hline
+\end{DoxyParams}
+@complexity The time complexity of this function depends on the number of vertices in the graph and the structure of the graph. In the worst case, where the graph is a complete graph, the complexity is O(\texorpdfstring{$\vert$}{|}\+V\texorpdfstring{$\vert$}{|} + \texorpdfstring{$\vert$}{|}\+E\texorpdfstring{$\vert$}{|}), where \texorpdfstring{$\vert$}{|}\+V\texorpdfstring{$\vert$}{|} is the number of vertices and \texorpdfstring{$\vert$}{|}\+E\texorpdfstring{$\vert$}{|} is the number of edges in the graph. \Hypertarget{class_graph_acb18a1f9d2ad51214d4211d60edf6860}\label{class_graph_acb18a1f9d2ad51214d4211d60edf6860} 
+\index{Graph@{Graph}!prim@{prim}}
+\index{prim@{prim}!Graph@{Graph}}
+\doxysubsubsection{\texorpdfstring{prim()}{prim()}}
+{\footnotesize\ttfamily void Graph\+::prim (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Constructs a minimum spanning tree (MST) using Prim\textquotesingle{}s algorithm. 
+
+This function implements Prim\textquotesingle{}s algorithm to find the minimum spanning tree (MST) of the graph starting from an arbitrary vertex. It initializes each vertex\textquotesingle{}s distance to infinity and sets its path and visited status accordingly. Then, it selects a starting vertex, sets its distance to 0, and initializes a mutable priority queue to manage vertices based on their distances. The algorithm iterates by extracting the vertex with the minimum distance from the priority queue, marking it as visited, and updating the distances of its adjacent vertices if shorter paths are found. The process continues until all vertices are visited.
+
+@complexity The time complexity of Prim\textquotesingle{}s algorithm depends on the implementation of the priority queue. Using a binary heap-\/based priority queue, the complexity is O((\texorpdfstring{$\vert$}{|}\+V\texorpdfstring{$\vert$}{|} + \texorpdfstring{$\vert$}{|}\+E\texorpdfstring{$\vert$}{|}) log \texorpdfstring{$\vert$}{|}\+V\texorpdfstring{$\vert$}{|}), where \texorpdfstring{$\vert$}{|}\+V\texorpdfstring{$\vert$}{|} is the number of vertices and \texorpdfstring{$\vert$}{|}\+E\texorpdfstring{$\vert$}{|} is the number of edges in the graph. \Hypertarget{class_graph_af36c0a3ce405505de739224ffe2557c0}\label{class_graph_af36c0a3ce405505de739224ffe2557c0} 
+\index{Graph@{Graph}!TSPBacktracking@{TSPBacktracking}}
+\index{TSPBacktracking@{TSPBacktracking}!Graph@{Graph}}
+\doxysubsubsection{\texorpdfstring{TSPBacktracking()}{TSPBacktracking()}}
+{\footnotesize\ttfamily void Graph\+::\+TSPBacktracking (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_vertex}{Vertex}} \texorpdfstring{$\ast$}{*}}]{current\+Vertex,  }\item[{int}]{dest\+Id,  }\item[{int}]{count,  }\item[{double}]{cost,  }\item[{double \&}]{res }\end{DoxyParamCaption})}
+
+
+
+Performs the Traveling Salesman Problem (TSP) using backtracking algorithm. 
+
+This function recursively explores all possible paths starting from the current vertex to find the shortest Hamiltonian cycle that visits all vertices exactly once and returns to the starting vertex. It backtracks when all vertices have been visited to check if the current path forms a cycle and updates the minimum cost if necessary.
+
+
+\begin{DoxyParams}{Parameters}
+{\em current\+Vertex} & A pointer to the current vertex being visited in the TSP traversal. \\
+\hline
+{\em dest\+Id} & The id of the destination vertex (starting vertex) for completing the cycle. \\
+\hline
+{\em count} & The number of vertices visited in the current path. \\
+\hline
+{\em cost} & The total cost of the current path. \\
+\hline
+{\em res} & Reference to the minimum cost found so far, updated recursively.\\
+\hline
+\end{DoxyParams}
+@complexity The time complexity of this function depends on the number of permutations of vertices to explore, resulting in O(V!) in the worst case, where \textquotesingle{}V\textquotesingle{} is the number of vertices in the graph. \Hypertarget{class_graph_a81a736d93710e0c0a610833bece321c2}\label{class_graph_a81a736d93710e0c0a610833bece321c2} 
+\index{Graph@{Graph}!TSPNearestNeighbor@{TSPNearestNeighbor}}
+\index{TSPNearestNeighbor@{TSPNearestNeighbor}!Graph@{Graph}}
+\doxysubsubsection{\texorpdfstring{TSPNearestNeighbor()}{TSPNearestNeighbor()}}
+{\footnotesize\ttfamily void Graph\+::\+TSPNearest\+Neighbor (\begin{DoxyParamCaption}\item[{double \&}]{res }\end{DoxyParamCaption})}
+
+
+
+Solves the Traveling Salesman Problem (TSP) using the Nearest Neighbor heuristic. 
+
+This function applies the Nearest Neighbor heuristic to find an approximate solution to the TSP. Starting from an arbitrary vertex, it iteratively selects the nearest unvisited neighbor until all vertices are visited, forming a Hamiltonian cycle. It calculates the total cost of the cycle by summing the weights of the edges traversed.
+
+
+\begin{DoxyParams}{Parameters}
+{\em res} & Reference to the variable to store the total cost of the Hamiltonian cycle.\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em std\+::runtime\+\_\+error} & If no neighboring vertex is found during the traversal.\\
+\hline
+\end{DoxyExceptions}
+@complexity The time complexity of this function primarily depends on the number of vertices in the graph and the implementation of finding the nearest neighbor, resulting in O(\texorpdfstring{$\vert$}{|}\+V\texorpdfstring{$\vert$}{|}\texorpdfstring{$^\wedge$}{\string^}2), where \texorpdfstring{$\vert$}{|}\+V\texorpdfstring{$\vert$}{|} is the number of vertices. \Hypertarget{class_graph_af0dcc15c2ebb0e1e4e356da8f1366369}\label{class_graph_af0dcc15c2ebb0e1e4e356da8f1366369} 
+\index{Graph@{Graph}!TSPRealWorldNearestNeighbor@{TSPRealWorldNearestNeighbor}}
+\index{TSPRealWorldNearestNeighbor@{TSPRealWorldNearestNeighbor}!Graph@{Graph}}
+\doxysubsubsection{\texorpdfstring{TSPRealWorldNearestNeighbor()}{TSPRealWorldNearestNeighbor()}}
+{\footnotesize\ttfamily void Graph\+::\+TSPReal\+World\+Nearest\+Neighbor (\begin{DoxyParamCaption}\item[{double \&}]{res,  }\item[{int}]{starting\+Vertex\+Id }\end{DoxyParamCaption})}
+
+
+
+Solves the Traveling Salesman Problem (TSP) using the Real-\/\+World Nearest Neighbor heuristic. 
+
+This function applies the Real-\/\+World Nearest Neighbor heuristic to find an approximate solution to the TSP. Starting from a specified vertex, it iteratively selects the nearest unvisited neighbor based on real-\/world distances (edge weights) until all vertices are visited, forming a Hamiltonian cycle. It calculates the total cost of the cycle by summing the weights of the edges traversed.
+
+
+\begin{DoxyParams}{Parameters}
+{\em res} & Reference to the variable to store the total cost of the Hamiltonian cycle. \\
+\hline
+{\em starting\+Vertex\+Id} & The ID of the vertex from which the traversal should start.\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em std\+::runtime\+\_\+error} & If no neighboring vertex or path is found during the traversal.\\
+\hline
+\end{DoxyExceptions}
+@complexity The time complexity of this function primarily depends on the number of vertices in the graph and the implementation of finding the nearest neighbor, resulting in O(\texorpdfstring{$\vert$}{|}\+V\texorpdfstring{$\vert$}{|} + \texorpdfstring{$\vert$}{|}\+E\texorpdfstring{$\vert$}{|}), where \texorpdfstring{$\vert$}{|}\+V\texorpdfstring{$\vert$}{|} is the number of vertices and \texorpdfstring{$\vert$}{|}\+E\texorpdfstring{$\vert$}{|} is the number of edges in the graph. \Hypertarget{class_graph_a049913a4f0aa5b5371de6809ab585bc8}\label{class_graph_a049913a4f0aa5b5371de6809ab585bc8} 
+\index{Graph@{Graph}!TSPTriangular@{TSPTriangular}}
+\index{TSPTriangular@{TSPTriangular}!Graph@{Graph}}
+\doxysubsubsection{\texorpdfstring{TSPTriangular()}{TSPTriangular()}}
+{\footnotesize\ttfamily void Graph\+::\+TSPTriangular (\begin{DoxyParamCaption}\item[{double \&}]{res }\end{DoxyParamCaption})}
+
+
+
+Solves the Traveling Salesman Problem (TSP) using the Triangular TSP heuristic. 
+
+This function applies the Triangular TSP heuristic, which consists of constructing a minimum spanning tree (MST) using Prim\textquotesingle{}s algorithm with a binary heap-\/based priority queue, and then performing a preorder traversal on the MST to generate a Hamiltonian cycle. It calculates the total cost of the cycle by summing the weights of the edges in the preorder traversal path.
+
+
+\begin{DoxyParams}{Parameters}
+{\em res} & Reference to the variable to store the total cost of the Hamiltonian cycle.\\
+\hline
+\end{DoxyParams}
+@complexity The time complexity of this function primarily depends on the time complexity of constructing the minimum spanning tree using Prim\textquotesingle{}s algorithm, which is O((\texorpdfstring{$\vert$}{|}\+V\texorpdfstring{$\vert$}{|} + \texorpdfstring{$\vert$}{|}\+E\texorpdfstring{$\vert$}{|}) log \texorpdfstring{$\vert$}{|}\+V\texorpdfstring{$\vert$}{|}) with adjacency list representation and a binary heap-\/based priority queue. The complexity of the preorder traversal is O(\texorpdfstring{$\vert$}{|}\+V\texorpdfstring{$\vert$}{|}), and calculating edge weights is O(1) on average. Overall, the complexity is dominated by Prim\textquotesingle{}s algorithm. 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Graph.\+h\item 
+Graph.\+cpp\end{DoxyCompactItemize}

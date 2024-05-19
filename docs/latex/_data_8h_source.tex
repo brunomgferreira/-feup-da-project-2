@@ -1,0 +1,54 @@
+\doxysection{Data.\+h}
+\hypertarget{_data_8h_source}{}\label{_data_8h_source}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ FEUP\_DA\_PROJECT\_2\_DATA\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ FEUP\_DA\_PROJECT\_2\_DATA\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{keyword}{using\ namespace\ }std;}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <unordered\_map>}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ <fstream>}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ <sstream>}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ <filesystem>}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ <limits>}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ <cmath>}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ "{}Graph.h"{}}}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00021\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_data}{Data}}\ \{}
+\DoxyCodeLine{00022\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00023\ \ \ \ \ filesystem::path\ edgesFilePath;}
+\DoxyCodeLine{00024\ \ \ \ \ filesystem::path\ nodesFilePath;}
+\DoxyCodeLine{00025\ \ \ \ \ \mbox{\hyperlink{class_graph}{Graph}}\ g;}
+\DoxyCodeLine{00026\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00033\ \ \ \ \ \mbox{\hyperlink{class_data_af11f741cb7f587e2e495452a8905a22a}{Data}}();}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00045\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_data_a0fcd95729b8769938727ab3bbcd6844b}{isGraphLoaded}}();}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00056\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_data_a045278bcc318a048fbacd1d15eb2c3ea}{setEdgesFilePath}}(\textcolor{keyword}{const}\ filesystem::path\ \&file);}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00067\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_data_ac65d94034d337c6813b8ff2be533d2c0}{setNodesFilePath}}(\textcolor{keyword}{const}\ filesystem::path\ \&file);}
+\DoxyCodeLine{00068\ }
+\DoxyCodeLine{00078\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_data_a0cd9b8e51f55ec91286b190b97b99155}{readFiles}}();}
+\DoxyCodeLine{00079\ }
+\DoxyCodeLine{00097\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_data_a184f4dc9bfcb1653a7aca2552de61937}{readEdgesFile}}(ifstream\ \&file);}
+\DoxyCodeLine{00098\ }
+\DoxyCodeLine{00115\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_data_a01afd34e6985adb27d82059161d93d9a}{readNodesFile}}(ifstream\ \&file);}
+\DoxyCodeLine{00116\ }
+\DoxyCodeLine{00128\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_data_aed8bbd42115881246f10da771e637334}{vertexExists}}(\textcolor{keywordtype}{int}\ \textcolor{keywordtype}{id});}
+\DoxyCodeLine{00129\ }
+\DoxyCodeLine{00142\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_data_aa30d42350ed47160d4a10e550548af51}{TSPBacktracking}}();}
+\DoxyCodeLine{00143\ }
+\DoxyCodeLine{00151\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_data_a81751080cd4fe7e50ef33f08b0541007}{TSPTriangular}}();}
+\DoxyCodeLine{00152\ }
+\DoxyCodeLine{00165\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_data_a763b4d1f2347f2ebaa07aa05ba783098}{TSPNearestNeighbor}}();}
+\DoxyCodeLine{00166\ }
+\DoxyCodeLine{00185\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_data_a7ace341657adb554538a89682945a62a}{TSPRealWorldNearestNeighbor}}(\textcolor{keywordtype}{int}\ startingVertexId);}
+\DoxyCodeLine{00186\ \};}
+\DoxyCodeLine{00187\ }
+\DoxyCodeLine{00188\ }
+\DoxyCodeLine{00189\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//FEUP\_DA\_PROJECT\_2\_DATA\_H}}
+
+\end{DoxyCode}

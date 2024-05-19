@@ -1,0 +1,162 @@
+\doxysection{Graph.\+h}
+\hypertarget{_graph_8h_source}{}\label{_graph_8h_source}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ FEUP\_DA\_PROJECT\_2\_GRAPH\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ FEUP\_DA\_PROJECT\_2\_GRAPH\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}MutablePriorityQueue.h"{}}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <queue>}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ <limits>}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ <cmath>}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ <algorithm>}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ <unordered\_map>}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ <unordered\_set>}}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \textcolor{keyword}{using\ namespace\ }std;}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_edge}{Edge}};}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \textcolor{comment}{/*************************\ Vertex\ \ **************************/}}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00024\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_vertex}{Vertex}}\ \{}
+\DoxyCodeLine{00025\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keywordtype}{int}\ id;\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ id\ of\ the\ node}}
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keywordtype}{double}\ longitude\ =\ numeric\_limits<double>::max();}
+\DoxyCodeLine{00028\ \ \ \ \ \textcolor{keywordtype}{double}\ latitude\ =\ numeric\_limits<double>::max();}
+\DoxyCodeLine{00029\ \ \ \ \ unordered\_map<int,\ Edge\ *>\ adj;\ \ \textcolor{comment}{//\ outgoing\ edges}}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \ \ \ \ \textcolor{comment}{//\ auxiliary\ fields}}
+\DoxyCodeLine{00032\ \ \ \ \ \textcolor{keywordtype}{bool}\ visited\ =\ \textcolor{keyword}{false};\ \textcolor{comment}{//\ used\ by\ DFS,\ BFS,\ Prim\ ...}}
+\DoxyCodeLine{00033\ \ \ \ \ \textcolor{keywordtype}{double}\ dist\ =\ 0;}
+\DoxyCodeLine{00034\ \ \ \ \ \mbox{\hyperlink{class_vertex}{Vertex}}\ *path\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \ \ \ \ \textcolor{keywordtype}{int}\ queueIndex\ =\ 0;\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ required\ by\ MutablePriorityQueue}}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ \ \ \ \ \textcolor{keyword}{friend}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_mutable_priority_queue}{MutablePriorityQueue}}<\mbox{\hyperlink{class_vertex}{Vertex}}>;}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00040\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00047\ \ \ \ \ \textcolor{keyword}{explicit}\ \mbox{\hyperlink{class_vertex}{Vertex}}(\textcolor{keywordtype}{int}\ \textcolor{keywordtype}{id});}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00056\ \ \ \ \ \mbox{\hyperlink{class_vertex}{Vertex}}(\textcolor{keywordtype}{int}\ \textcolor{keywordtype}{id},\ \textcolor{keywordtype}{double}\ longitude,\ \textcolor{keywordtype}{double}\ latitude);}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00064\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_vertex_ad4ccd48170a1530ec1db5eb306357a74}{operator<}}(\mbox{\hyperlink{class_vertex}{Vertex}}\ \&\ vertex)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00065\ }
+\DoxyCodeLine{00071\ \ \ \ \ [[nodiscard]]\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_vertex_a75b6b4a4afc26affea59fdae48aa30b1}{getId}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00072\ }
+\DoxyCodeLine{00078\ \ \ \ \ [[nodiscard]]\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{class_vertex_af1a2bee6c38f511cbfea082eb7149537}{getLongitude}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00079\ }
+\DoxyCodeLine{00085\ \ \ \ \ [[nodiscard]]\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{class_vertex_a7455a09de51b274867edae2254cef38d}{getLatitude}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00086\ }
+\DoxyCodeLine{00092\ \ \ \ \ [[nodiscard]]\ unordered\_map<int,\ Edge\ *>\ \mbox{\hyperlink{class_vertex_aa9df2ff33ba6b822fc7fe4b3a91c7a2b}{getAdj}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00093\ }
+\DoxyCodeLine{00099\ \ \ \ \ [[nodiscard]]\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_vertex_aa4bd82105b85ee53a917391f4811cd8a}{isVisited}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00100\ }
+\DoxyCodeLine{00106\ \ \ \ \ [[nodiscard]]\ \mbox{\hyperlink{class_vertex}{Vertex}}\ *\mbox{\hyperlink{class_vertex_a0a5f9557c9ae858dc4ad7cf6513b785f}{getPath}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00107\ }
+\DoxyCodeLine{00113\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_vertex_ac29125ddca49e8c53f43cc03b103f0e4}{setVisited}}(\textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_vertex_aa4bd82105b85ee53a917391f4811cd8a}{isVisited}});}
+\DoxyCodeLine{00114\ }
+\DoxyCodeLine{00120\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{class_vertex_aa36ca926de23a6e7283be42e2930957c}{getDist}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00121\ }
+\DoxyCodeLine{00127\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_vertex_a7278549bd148e721373003fa5d5648c5}{setDist}}(\textcolor{keywordtype}{double}\ value);}
+\DoxyCodeLine{00128\ }
+\DoxyCodeLine{00134\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_vertex_adbc5c203df3c18b2b8515b4da0aab703}{setPath}}(\mbox{\hyperlink{class_vertex}{Vertex}}\ *newPath);}
+\DoxyCodeLine{00135\ }
+\DoxyCodeLine{00144\ \ \ \ \ \mbox{\hyperlink{class_edge}{Edge}}\ *\ \mbox{\hyperlink{class_vertex_a6c38817196656fcc394aae867ee62773}{addEdge}}(\mbox{\hyperlink{class_vertex}{Vertex}}\ *dest,\ \textcolor{keywordtype}{double}\ w);}
+\DoxyCodeLine{00145\ }
+\DoxyCodeLine{00153\ \ \ \ \ \mbox{\hyperlink{class_edge}{Edge}}\ *\ \mbox{\hyperlink{class_vertex_acff4ef88ae6971c88ad7ac55ad65139d}{findEdge}}(\textcolor{keywordtype}{int}\ destId);}
+\DoxyCodeLine{00154\ \};}
+\DoxyCodeLine{00155\ }
+\DoxyCodeLine{00156\ \textcolor{comment}{/**********************\ Edge\ \ ****************************/}}
+\DoxyCodeLine{00157\ }
+\DoxyCodeLine{00161\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_edge}{Edge}}\ \{}
+\DoxyCodeLine{00162\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00163\ \ \ \ \ \mbox{\hyperlink{class_vertex}{Vertex}}\ *dest;\ \textcolor{comment}{//\ destination\ vertex}}
+\DoxyCodeLine{00164\ \ \ \ \ \textcolor{keywordtype}{double}\ weight;\ \textcolor{comment}{//\ edge\ weight}}
+\DoxyCodeLine{00165\ }
+\DoxyCodeLine{00166\ \ \ \ \ \textcolor{comment}{//\ used\ for\ bidirectional\ edges}}
+\DoxyCodeLine{00167\ \ \ \ \ \mbox{\hyperlink{class_vertex}{Vertex}}\ *orig;}
+\DoxyCodeLine{00168\ \ \ \ \ \mbox{\hyperlink{class_edge}{Edge}}\ *reverse\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00169\ }
+\DoxyCodeLine{00170\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00180\ \ \ \ \ \mbox{\hyperlink{class_edge}{Edge}}(\mbox{\hyperlink{class_vertex}{Vertex}}\ *orig,\ \mbox{\hyperlink{class_vertex}{Vertex}}\ *dest,\ \textcolor{keywordtype}{double}\ weight);}
+\DoxyCodeLine{00181\ }
+\DoxyCodeLine{00187\ \ \ \ \ [[nodiscard]]\ \mbox{\hyperlink{class_vertex}{Vertex}}\ *\ \mbox{\hyperlink{class_edge_a5cda44e9ba257b03963a1ac301371a59}{getDest}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00188\ }
+\DoxyCodeLine{00195\ \ \ \ \ [[nodiscard]]\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{class_edge_a1caaffca117bab3ff5b7387623a356f8}{getWeight}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00196\ }
+\DoxyCodeLine{00203\ \ \ \ \ [[nodiscard]]\ \mbox{\hyperlink{class_vertex}{Vertex}}\ *\ \mbox{\hyperlink{class_edge_a6e8b08e91c0694b40edff0432fb612eb}{getOrig}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00204\ }
+\DoxyCodeLine{00211\ \ \ \ \ [[nodiscard]]\ \mbox{\hyperlink{class_edge}{Edge}}\ *\mbox{\hyperlink{class_edge_a756d2d246aa5445d0f396626c7d4fd56}{getReverse}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00212\ }
+\DoxyCodeLine{00218\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_edge_ac7b7d4cc7ee09e94a8d833283922ebd0}{setReverse}}(\mbox{\hyperlink{class_edge}{Edge}}\ *reverseEdge);}
+\DoxyCodeLine{00219\ \};}
+\DoxyCodeLine{00220\ }
+\DoxyCodeLine{00221\ \textcolor{comment}{/**********************\ Graph\ \ ****************************/}}
+\DoxyCodeLine{00222\ }
+\DoxyCodeLine{00227\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_graph}{Graph}}\ \{}
+\DoxyCodeLine{00228\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00229\ \ \ \ \ unordered\_map<int,\ Vertex\ *>\ vertices;\ \ \ \ \textcolor{comment}{//\ vertex\ set}}
+\DoxyCodeLine{00230\ }
+\DoxyCodeLine{00231\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00232\ }
+\DoxyCodeLine{00247\ \ \ \ \ \mbox{\hyperlink{class_vertex}{Vertex}}\ *\mbox{\hyperlink{class_graph_a05c45e4efdf867792139ddf3628c0b60}{findVertex}}(\textcolor{keywordtype}{int}\ \textcolor{keywordtype}{id})\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00248\ }
+\DoxyCodeLine{00265\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_graph_a2d2f69946b29fee07c53cb6552c7690e}{addVertex}}(\textcolor{keywordtype}{int}\ \textcolor{keywordtype}{id});}
+\DoxyCodeLine{00266\ }
+\DoxyCodeLine{00285\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_graph_a2d2f69946b29fee07c53cb6552c7690e}{addVertex}}(\textcolor{keywordtype}{int}\ \textcolor{keywordtype}{id},\ \textcolor{keywordtype}{double}\ longitude,\ \textcolor{keywordtype}{double}\ latitude);}
+\DoxyCodeLine{00286\ }
+\DoxyCodeLine{00307\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_graph_aec796be6bcc74ce93b43df4c93525776}{addEdge}}(\textcolor{keywordtype}{int}\ source,\ \textcolor{keywordtype}{int}\ dest,\ \textcolor{keywordtype}{double}\ w)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00308\ }
+\DoxyCodeLine{00328\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_graph_abf29d1d4926915e6b4bac336b74a4293}{addBidirectionalEdge}}(\textcolor{keywordtype}{int}\ source,\ \textcolor{keywordtype}{int}\ dest,\ \textcolor{keywordtype}{double}\ w)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00329\ }
+\DoxyCodeLine{00341\ \ \ \ \ unordered\_map<int,\ Vertex\ *>\ \mbox{\hyperlink{class_graph_a1e805d1e47b847b9665cf978aa31ab4a}{getVertexSet}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00342\ }
+\DoxyCodeLine{00368\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{class_graph_ad8863cfdad2955bd23306b3e56b0aa51}{getEdgeWeight}}(\mbox{\hyperlink{class_vertex}{Vertex}}*\ source,\ \mbox{\hyperlink{class_vertex}{Vertex}}*\ dest);}
+\DoxyCodeLine{00369\ }
+\DoxyCodeLine{00388\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_graph_af36c0a3ce405505de739224ffe2557c0}{TSPBacktracking}}(\mbox{\hyperlink{class_vertex}{Vertex}}\ *currentVertex,\ \textcolor{keywordtype}{int}\ destId,\ \textcolor{keywordtype}{int}\ count,\ \textcolor{keywordtype}{double}\ cost,\ \textcolor{keywordtype}{double}\ \&res);}
+\DoxyCodeLine{00389\ }
+\DoxyCodeLine{00407\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_graph_a049913a4f0aa5b5371de6809ab585bc8}{TSPTriangular}}(\textcolor{keywordtype}{double}\ \&res);}
+\DoxyCodeLine{00408\ }
+\DoxyCodeLine{00424\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_graph_acb18a1f9d2ad51214d4211d60edf6860}{prim}}();}
+\DoxyCodeLine{00425\ }
+\DoxyCodeLine{00443\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_graph_ac4b61821079f925dcbf4c29d61a98a1c}{preorderTraversal}}(\mbox{\hyperlink{class_vertex}{Vertex}}\ *v,\ std::vector<Vertex\ *>\ \&preorder,\ \textcolor{keywordtype}{int}\ n);}
+\DoxyCodeLine{00444\ }
+\DoxyCodeLine{00461\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_graph_a81a736d93710e0c0a610833bece321c2}{TSPNearestNeighbor}}(\textcolor{keywordtype}{double}\ \&res);}
+\DoxyCodeLine{00462\ }
+\DoxyCodeLine{00481\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_graph_af0dcc15c2ebb0e1e4e356da8f1366369}{TSPRealWorldNearestNeighbor}}(\textcolor{keywordtype}{double}\ \&res,\ \textcolor{keywordtype}{int}\ startingVertexId);}
+\DoxyCodeLine{00482\ \};}
+\DoxyCodeLine{00483\ }
+\DoxyCodeLine{00484\ \textcolor{comment}{//\ AUX\ functions}}
+\DoxyCodeLine{00485\ }
+\DoxyCodeLine{00500\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{double}\ convert\_to\_radians(\textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ coord)}
+\DoxyCodeLine{00501\ \{}
+\DoxyCodeLine{00502\ \ \ \ \ \textcolor{keywordflow}{return}\ coord\ *\ (M\_PI\ /\ 180);}
+\DoxyCodeLine{00503\ \}}
+\DoxyCodeLine{00504\ }
+\DoxyCodeLine{00527\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{double}\ haversine(\textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ lat1,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ lon1,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ lat2,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ lon2)}
+\DoxyCodeLine{00528\ \{}
+\DoxyCodeLine{00529\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ earths\_radius\ =\ 6371000;}
+\DoxyCodeLine{00530\ }
+\DoxyCodeLine{00531\ \ \ \ \ \textcolor{comment}{//\ Get\ the\ difference\ between\ our\ two\ points\ then\ convert\ the\ difference\ into\ radians}}
+\DoxyCodeLine{00532\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ delta\_lat\ =\ convert\_to\_radians(lat2\ -\/\ lat1);}
+\DoxyCodeLine{00533\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ delta\_lon\ =\ convert\_to\_radians(lon2\ -\/\ lon1);}
+\DoxyCodeLine{00534\ }
+\DoxyCodeLine{00535\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ converted\_lat1\ =\ convert\_to\_radians(lat1);}
+\DoxyCodeLine{00536\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ converted\_lat2\ =\ convert\_to\_radians(lat2);}
+\DoxyCodeLine{00537\ }
+\DoxyCodeLine{00538\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ aux\ =\ pow(sin(delta\_lat\ /\ 2),\ 2)\ +\ cos(converted\_lat1)\ *\ cos(converted\_lat2)\ *\ pow(sin(delta\_lon\ /\ 2),\ 2);}
+\DoxyCodeLine{00539\ }
+\DoxyCodeLine{00540\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ c\ =\ 2\ *\ atan2(sqrt(aux),\ sqrt(1\ -\/\ aux));}
+\DoxyCodeLine{00541\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ distance\ =\ earths\_radius\ *\ c;}
+\DoxyCodeLine{00542\ }
+\DoxyCodeLine{00543\ \ \ \ \ \textcolor{keywordflow}{return}\ distance;}
+\DoxyCodeLine{00544\ \}}
+\DoxyCodeLine{00545\ }
+\DoxyCodeLine{00546\ }
+\DoxyCodeLine{00547\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//FEUP\_DA\_PROJECT\_2\_GRAPH\_H}}
+
+\end{DoxyCode}
