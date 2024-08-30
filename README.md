@@ -1,4 +1,4 @@
-# Design of Algorithms @FEUP - 2nd Project - Travelling Salesman Problem (TSP)
+# Design of Algorithms @FEUP - Travelling Salesman Problem (TSP)
 
 Project developed in C++ for the **Design of Algorithms (DA)** course unit **@FEUP**
 
